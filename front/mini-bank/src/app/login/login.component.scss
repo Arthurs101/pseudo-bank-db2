@@ -3,6 +3,48 @@ body, html {
     padding: 0;
     overflow-x: hidden; 
 }
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000; // Color de fondo negro
+    padding: 10px 50px; // Ajusta el espaciado como prefieras
+}
+
+.logo-container {
+    .logo {
+        height: 50px; // Ajusta el tamaño del logo como prefieras
+    }
+}
+
+.navbar {
+    .nav-links {
+        list-style: none;
+        display: flex;
+        margin: 0;
+        padding: 0;
+
+        li {
+            margin: 0 20px; // Ajusta el margen entre enlaces
+
+            a {
+                text-decoration: none;
+                color: white; // Color del texto
+                font-weight: bold; // Estilo del texto
+            }
+        }
+    }
+}
+
+.social-media {
+    a {
+        margin-left: 20px; // Ajusta según necesites
+
+        img {
+            height: 30px; // Ajusta el tamaño de los iconos de redes sociales
+        }
+    }
+}
 
 :host {
     display: block;
