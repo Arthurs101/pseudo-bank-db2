@@ -104,11 +104,47 @@ body, html {
     padding: 10px;
     border: none;
     border-radius: 4px;
-    background-color: #007bff;
+    background-color: #011120;
     color: white;
     cursor: pointer;
 }
 
 .btn-primary:hover {
     background-color: #0056b3;
+}
+
+.btn-secondary {
+    width: 150px; /* Aumentar el ancho del botón */
+    padding: 10px 20px; /* Ajustar el espaciado dentro del botón */
+    border-radius: 20px; /* Redondear las esquinas */
+    background-color: #031f39; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: 2px solid white; /* Borde del botón */
+    font-size: 14px; /* Tamaño del texto */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    display: block; /* Hacer que el botón sea un bloque para permitir el ancho personalizado */
+    margin: 15px auto 30px; /* Centrar el botón y aumentar el margen inferior */
+    transition: background-color 0.3s, color 0.3s; /* Transición suave */
+}
+
+.btn-secondary:hover {
+    background-color: rgb(63, 158, 242); /* Color de fondo al pasar el mouse */
+    color: #011120; /* Cambiar el color del texto al pasar el mouse */
+}
+
+.btn-primary {
+    width: 100%; /* Aumentar el ancho del botón */
+    padding: 15px; /* Aumentar el espaciado dentro del botón */
+    border-radius: 4px; /* Bordes ligeramente redondeados */
+    background-color: #4faee9; /* Color de fondo */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    cursor: pointer; /* Cambiar el cursor al pasar por encima */
+    display: block; /* Hacer que el botón sea un bloque para permitir el ancho personalizado */
+    margin: 40px auto 0; /* Aumentar el margen superior y centrar el botón */
+    transition: background-color 0.3s; /* Transición suave para el fondo */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Color de fondo al pasar el mouse */
 }
