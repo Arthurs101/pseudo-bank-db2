@@ -1,4 +1,5 @@
 const User = require('../models/UserModel');
+const {TransactionModel }  = require('../models/TransactionModel');
 //login del usuario
 const login = async (req, res)  => {
         try {
@@ -41,7 +42,67 @@ const updateUser = async (req, res) => {
     }
 }
 
+const getUserTransactions = async (req, res) => {
+  const { user_code } = req.params;
+
+  try {
+      // Buscar el usuario por su código
+      const user = await User.findOne({ user_code: Number(user_code) });
+
+      if (!user) {
+          return res.status(404).json({ message: 'Usuario no encontrado' });
+      }
+
+      // Obtener las transacciones del usuario
+      const userTransactions = await Transaction.aggregate([
+          {
+              $match: {
+                  $or: [
+                      { account_from: user_code },
+                      { account_to: user_code }
+                  ]
+              }
+          },
+          {
+              $lookup: {
+                  from: "users",
+                  localField: "account_to",
+                  foreignField: "user_code",
+                  as: "destination_account"
+              }
+          },
+          {
+              $addFields: {
+                  destination_account: { $arrayElemAt: ["$destination_account", 0] }
+              }
+          },
+          {
+              $project: {
+                  _id: 0,
+                  amount: 1,
+                  date: 1,
+                  currency: 1,
+                  destination_account: {
+                      names: 1,
+                      lastnames: 1,
+                      accounts: {
+                          type: 1,
+                          currency: 1
+                      }
+                  }
+              }
+          }
+      ]).exec();
+
+      res.status(200).json(userTransactions);
+  } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Error interno del servidor" });
+  }
+};
+
 module.exports = {
     login,
-    updateUser
+    updateUser,
+    getUserTransactions
 }

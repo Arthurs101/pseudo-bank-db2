@@ -21,8 +21,9 @@ const LoanSchema = new mongoose.Schema({
         interest: Number,
         interest_rate: String
 })
-
+const Transaction = new mongoose.model('Transaction', TransactionSchema)
+const Loans = new mongoose.model('Loans', LoanSchema)
 module.exports = {
-    TransactionSchema: TransactionSchema,
-    LoanSchema: LoanSchema
+    TransactionModel: Transaction,
+    LoansModel: Loans
 }
