@@ -1,4 +1,4 @@
-const User = require('../models/UserModel');
+const {User,newUserModel} = require('../models/UserModel');
 const {TransactionModel }  = require('../models/TransactionModel');
 //login del usuario
 const login = async (req, res)  => {
@@ -101,8 +101,65 @@ const getUserTransactions = async (req, res) => {
   }
 };
 
+const createUser = async (req, res) => {
+/**
+ * pasar user_code y password de quien esté creando el nuevo suario, para el nuevo usuario se deben de pasar con la llave
+ * newuser el siguiente json: 
+ * {
+    "names": "Nombre del usuario",
+    "lastnames": "Apellidos del usuario",
+    "birthdate": "Fecha de nacimiento del usuario (en formato YYYY-MM-DD)",
+    "nationality": "Nacionalidad del usuario",
+    "hashed_password": "Contraseña del usuario (ya debe estar encriptada)",
+    "phones": [
+        {
+            "number": "Número de teléfono del usuario",
+            "postal_code": "Código postal",
+            "brand": "Marca del teléfono"
+        }
+    ],
+    "addresses": [
+        {
+            "street_name": "Nombre de la calle",
+            "zip_code": "Código postal",
+            "city": "Ciudad"
+        }
+    ],
+    "type": "Tipo de usuario (admin, personnel o client)"
+}
+ */
+  try {
+    // Extraer user_code y password del cuerpo de la solicitud
+    const { user_code, password ,newuser} = req.body;
+    const isAuth = await User.findOne({ user_code:Number(user_code), hashed_password: password, $or: [{ type: "admin" }, { type: "personnel" }] }, { user_code: 1 });
+    if (isAuth) {
+      if (newuser) {
+        try{
+          const newUser = new newUserModel(newuser);
+        // Guardar el nuevo usuario en la base de datos
+          await newUser.save();
+          // Devolver una respuesta exitosa
+          res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
+        }catch(error){
+          res.status(500).json({ message: "Error al crear nuevo usuario",error:error.message });
+        }
+        
+      } else {
+        res.status(500).json({ message: "field newuser not provided" });
+      }
+    } else {
+      // Si está autorizado, responder con un mensaje de no autorizado
+      res.status(400).json({ message: "No está autorizado para dicha acción" });
+    }
+  } catch (error) {
+    res.status(500).json({ message: "Error interno del servidor",error:error });
+  }
+};
+
+
 module.exports = {
     login,
     updateUser,
-    getUserTransactions
+    getUserTransactions,
+    createUser
 }
