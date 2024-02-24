@@ -228,6 +228,68 @@ const updatePhone = async (req, res) => {
 }
 }
 
+const addAddress = async (req, res) => {
+  try {
+    const { user_code, password, new_address } = req.body;
+    const user = await User.findOne({ user_code: Number(user_code) }, { user_code: 1, names:1 ,hashed_password: 1, adrresses: 1 });
+
+    if (!user || user.hashed_password !== password) {
+      res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+    }
+    // Verificar si la dirección ya existe para el usuario
+    const existingAddress = user.adrresses.find(a =>
+      a.street_name === new_address.street_name &&
+      a.zip_code === new_address.zip_code &&
+      a.city === new_address.city
+    );
+
+    if (existingAddress) {
+      console.log(user)
+      res.status(400).json({ message: 'La dirección ya existe para este usuario' });
+    }else{
+      // Agregar la dirección al usuario
+      var parsed = {
+        street_name : String(new_address.street_name) ,
+        zip_code :String( new_address.zip_code) ,
+        city : String(new_address.city)
+      }
+      user.adrresses.push(new_address);
+      await user.save();
+      res.status(200).json({ message: 'Dirección agregada correctamente', user });
+    }
+
+    
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno al agregar dirección', error: error.message });
+  }
+};
+
+const updateAddress = async (req, res) => {
+  try {
+    const { user_code, password, old_address, new_address_data } = req.body;
+    const user = await User.findOneAndUpdate(
+      {
+        user_code: Number(user_code),
+        hashed_password: password,
+        "adrresses.street_name": old_address.street_name,
+        "adrresses.zip_code": old_address.zip_code,
+        "adrresses.city": old_address.city
+      },
+      { $set: new_address_data },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado, contraseña incorrecta o dirección no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Dirección actualizada correctamente', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno al actualizar dirección', error: error.message });
+  }
+};
+
+
 module.exports = {
     login,
     updateUser,
@@ -235,5 +297,8 @@ module.exports = {
     createUser,
     deletePhone,
     addPhone,
-    updatePhone
+    updatePhone,
+    addAddress,
+    updateAddress
+
 }
