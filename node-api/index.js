@@ -8,7 +8,7 @@ var port = process.env.PORT || 8080  // establecemos nuestro puerto
 
 
 const userRouter = require('./routes/UserRoutes') 
-
+const transactionRouter = require('./routes/TransactionsRoutes')
 // const secret = process.env.SECRET
 const mongoose = require('mongoose');
 // Replace the placeholder with your Atlas connection string
@@ -21,7 +21,7 @@ app.use(bodyParser.json())
 
 // POST /login gets urlencoded bodies
 app.use('/user', userRouter);
-
+app.use('/transaction', transactionRouter);
 // iniciamos nuestro servidor
 app.listen(port)
 console.log('API escuchando en el puerto ' + port)

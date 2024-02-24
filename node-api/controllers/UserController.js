@@ -156,10 +156,49 @@ const createUser = async (req, res) => {
   }
 };
 
+const deletePhone = async (req, res) => {
+  const {user_code, password, phone_number} = req.body
+  const user = await User.findOne({ user_code: Number(user_code)},{hashed_password: 1 ,phones: 1});
+  // Verificar si el usuario existe y la contraseña coincide
+  if (!user || user.hashed_password !== password) {
+    res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+  }
+  if (user.phones.length === 1) {
+    res.status(400).json({ message: 'No se puede eliminar el único teléfono del usuario' });
+  }
+  try{
+    user.phones = user.phones.filter(phone => phone.number !== Number(phone_number));
+    await user.save();
+    res.status(200).json({ message: 'Teléfono eliminado correctamente', user });
+
+  }catch(error){
+    res.status(400).json({ message: "Error eliminadno el teléfono indicado",eror: error.message });
+  }
+}
+
+const addPhone = async (req, res) => {
+  const {user_code, password, new_phone} = req.body
+  const user = await User.findOne({ user_code: Number(user_code) },{hashed_password:1,phones:1});
+  if (!user || user.hashed_password !== password) {
+    res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+  }
+  //check if phone number is already in account
+  const existingPhone = user.phones.filter(p => p.number === Number(new_phone.number));
+  if (existingPhone.length > 0) {
+      return res.status(400).json({ message: 'El teléfono ya existe para este usuario' });
+  }
+  // Agregar el teléfono al usuario
+  var parsedPhone = {number: Number(new_phone.number) , postal_code: String(new_phone.postal_code) , brand: String(new_phone.brand)}
+  user.phones.push(parsedPhone);
+  user.save();
+  res.status(200).json({ message: 'Teléfono agregado correctamente', user });
+}
 
 module.exports = {
     login,
     updateUser,
     getUserTransactions,
-    createUser
+    createUser,
+    deletePhone,
+    addPhone
 }
