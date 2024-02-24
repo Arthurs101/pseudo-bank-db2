@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class DashboardComponent implements OnInit {
 
   saldoUsuario: number = 100; 
-
+  numeroCuenta: number=100000;
   constructor() { }
 
   ngOnInit(): void {
