@@ -135,9 +135,10 @@ const createUser = async (req, res) => {
     if (isAuth) {
       if (newuser) {
         try{
-          const newUser = new newUserModel(newuser);
+        let newUser = new newUserModel(newuser);
         // Guardar el nuevo usuario en la base de datos
         // Recorrer todos los campos de newUser
+        let userFields = {}
         for (const key in newUser._doc) {
           if (newUser._doc.hasOwnProperty(key)) {
             // Asignar el valor del campo de newUser al objeto userFields
@@ -145,9 +146,9 @@ const createUser = async (req, res) => {
           }
         }
         // Crear una instancia de User con los campos recopilados
-        const user = new User(userFields);
+          newUser = new User(userFields);
           // Guardar la instancia de User en la base de datos
-          await user.save();
+          await newUser.save();
           // Devolver una respuesta exitosa
           res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
         }catch(error){
