@@ -193,6 +193,40 @@ const addPhone = async (req, res) => {
   user.save();
   res.status(200).json({ message: 'Teléfono agregado correctamente', user });
 }
+const updatePhone = async (req, res) => {
+  try{
+    const { user_code, password ,phone_number, new_phone_data} = req.body;
+    let updateFields = {};
+    Object.keys(new_phone_data).forEach(key => {
+        updateFields[`phones.$.${key}`] = new_phone_data[key];
+    });
+
+    const user = await User.findOneAndUpdate(
+        { 
+            user_code: user_code, 
+            hashed_password: password, 
+            "phones.number": Number(phone_number) 
+        },
+        { 
+            $set: updateFields
+        },
+        { 
+            new: true 
+        }
+    );
+
+    // Verificar si el usuario existe y la contraseña coincide
+    if (!user ) {
+    // Devolver un mensaje de error si el usuario no se encuentra o la contraseña no coincide
+        return res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta o no existe el número indicado' });
+    }
+
+    res.status(200).json({message:"success",data:user});
+       
+}    catch (error) {
+    res.status(500).json({ message: 'Error interno al actualizar datos del teléfono' ,error: error.message });
+}
+}
 
 module.exports = {
     login,
@@ -200,5 +234,6 @@ module.exports = {
     getUserTransactions,
     createUser,
     deletePhone,
-    addPhone
+    addPhone,
+    updatePhone
 }
