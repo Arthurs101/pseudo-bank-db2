@@ -1,23 +1,27 @@
 var express = require('express') //llamamos a Express
 var jwt = require('jsonwebtoken')
 var bodyParser = require('body-parser');
+
 var app = express()               
 
 var port = process.env.PORT || 8080  // establecemos nuestro puerto
 
-// const secret = process.env.SECRET
-const mongo = require('./db')
 
+const userRouter = require('./routes/UserRoutes') 
+const transactionRouter = require('./routes/TransactionsRoutes')
+// const secret = process.env.SECRET
+const mongoose = require('mongoose');
+// Replace the placeholder with your Atlas connection string
+const uri = process.env.MONGODB_URL || "mongodb://127.0.0.1:27017/bank_database";
+
+// Create a MongoClient with a MongoClientOptions object to set the Stable API version
+mongoose.connect(uri)
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
 
 // POST /login gets urlencoded bodies
-app.post('/login', function (req, res) {
-  console.log('receiving data...');
-  console.log('body is ',req.body);
-  res.send(req.body);
-})
-
+app.use('/user', userRouter);
+app.use('/transaction', transactionRouter);
 // iniciamos nuestro servidor
 app.listen(port)
 console.log('API escuchando en el puerto ' + port)
