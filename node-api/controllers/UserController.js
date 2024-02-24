@@ -118,7 +118,7 @@ const createUser = async (req, res) => {
             "brand": "Marca del teléfono"
         }
     ],
-    "addresses": [
+    "adrresses": [
         {
             "street_name": "Nombre de la calle",
             "zip_code": "Código postal",
@@ -137,7 +137,17 @@ const createUser = async (req, res) => {
         try{
           const newUser = new newUserModel(newuser);
         // Guardar el nuevo usuario en la base de datos
-          await newUser.save();
+        // Recorrer todos los campos de newUser
+        for (const key in newUser._doc) {
+          if (newUser._doc.hasOwnProperty(key)) {
+            // Asignar el valor del campo de newUser al objeto userFields
+            userFields[key] = newUser[key];
+          }
+        }
+        // Crear una instancia de User con los campos recopilados
+        const user = new User(userFields);
+          // Guardar la instancia de User en la base de datos
+          await user.save();
           // Devolver una respuesta exitosa
           res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
         }catch(error){
@@ -267,6 +277,10 @@ const addAddress = async (req, res) => {
 const updateAddress = async (req, res) => {
   try {
     const { user_code, password, old_address, new_address_data } = req.body;
+    let updateFields = {};
+    Object.keys(new_address_data).forEach(key => {
+      updateFields[`adrresses.$.${key}`] = new_address_data[key];
+    });
     const user = await User.findOneAndUpdate(
       {
         user_code: Number(user_code),
@@ -275,7 +289,7 @@ const updateAddress = async (req, res) => {
         "adrresses.zip_code": old_address.zip_code,
         "adrresses.city": old_address.city
       },
-      { $set: new_address_data },
+      { $set: updateFields },
       { new: true }
     );
 
@@ -289,6 +303,27 @@ const updateAddress = async (req, res) => {
   }
 };
 
+const deleteAddress = async (req, res) => {
+  const {user_code, password, address} = req.body
+  const user = await User.findOne({ user_code: Number(user_code)},{hashed_password: 1 ,adrresses: 1});
+  // Verificar si el usuario existe y la contraseña coincide
+  if (!user || user.hashed_password !== password) {
+    res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+  }
+  if (user.adrresses.length === 1) {
+    res.status(400).json({ message: 'No se puede eliminar la dirección única del usuario' });
+  }
+  try{
+    user.adrresses = user.adrresses.filter(ad => ad.street_name !== address.street_name &&
+      ad.zip_code !== address.zip_code &&
+      ad.city !== address.city);
+    await user.save();
+    res.status(200).json({ message: 'Direccion eliminada correctamente', user });
+
+  }catch(error){
+    res.status(400).json({ message: "Error eliminadno la direccion indicada",eror: error.message });
+  }
+}
 
 module.exports = {
     login,
@@ -299,6 +334,7 @@ module.exports = {
     addPhone,
     updatePhone,
     addAddress,
-    updateAddress
+    updateAddress,
+    deleteAddress
 
 }
