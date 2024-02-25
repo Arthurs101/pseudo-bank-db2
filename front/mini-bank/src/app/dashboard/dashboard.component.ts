@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
-
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -18,9 +18,12 @@ export class DashboardComponent implements OnInit {
     compras: 200
   };
 
-  constructor() {
-  
+  constructor(private router: Router) { // Inyectar el Router aquí
     Chart.register(...registerables);
+  }
+
+  goToHistorialTransacciones(): void {
+    this.router.navigate(['/historial-transacciones']); // Usa la ruta configurada
   }
 
   ngOnInit(): void {
@@ -60,4 +63,6 @@ export class DashboardComponent implements OnInit {
       this.chart = new Chart(ctx, config);
     }
   }
+
+  
 }

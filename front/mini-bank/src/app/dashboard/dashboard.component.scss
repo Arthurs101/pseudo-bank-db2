@@ -46,7 +46,7 @@
     background-color: #f0f0f0;
     border: 1px solid #00ffea;
     height: 220px;
-    font-size: 150px;
+    font-size: 30px;
     box-shadow: 0 0 15px rgba(0, 255, 234, 0.7), 0 0 5px rgba(0, 255, 234, 0.5) inset;
     /* ... */
 }
@@ -105,12 +105,12 @@
   .transacciones-container {
     display: flex;
     justify-content: center; // Centra los botones horizontalmente
-    gap: 10px; // Espacio entre los botones
+    gap: 30px; // Espacio entre los botones
 
     button {
-        background-color: #007bff; // Un azul estándar para botones
+        background-color: #ad61f8; // Un azul estándar para botones
         color: white;
-        padding: 10px 15px;
+        padding: 25px 30px;
         border: none;
         border-radius: 50px; // Aumentar para hacer los botones más redondos
         cursor: pointer;
