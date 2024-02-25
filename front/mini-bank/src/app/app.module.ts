@@ -7,18 +7,24 @@ import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { HistorialTransaccionesComponent } from './historial-transacciones/historial-transacciones.component';
 import { RealizarTransaccionComponent } from './realizar-transaccion/realizar-transaccion.component';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
 
 @NgModule({
-  declarations: [
+  declarations: [	
     AppComponent,
     LoginComponent,
     DashboardComponent,
     HistorialTransaccionesComponent,
-    RealizarTransaccionComponent
-  ],
+    RealizarTransaccionComponent,
+      NotFoundComponentComponent
+   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

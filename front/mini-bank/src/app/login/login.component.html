@@ -1,6 +1,6 @@
 <header class="header">
     <div class="logo-container">
-        <img src="path_to_logo" alt="Logo" class="logo"> 
+        <img src="path_to_logo" alt="Logo" class="logo">
     </div>
     <nav class="navbar">
         <ul class="nav-links">
@@ -14,7 +14,7 @@
     <div class="social-media">
         <a href="https://www.facebook.com/tuPagina" target="_blank"><img src="assets/facebook.png" alt="Facebook"></a>
         <a href="https://www.instagram.com/tuPerfil" target="_blank"><img src="assets/instagram.png" alt="Instagram"></a>
-   
+
     </div>
 </header>
 
@@ -31,13 +31,13 @@
         <form>
             <div class="form-group">
                 <label for="username">Usuario:</label>
-                <input type="text" id="username" class="form-control" placeholder="Ingresa tu usuario">
+                <input type="text" id="username" class="form-control" placeholder="Ingresa tu usuario"name="username" [(ngModel)]="user.username">
             </div>
             <div class="form-group">
                 <label for="password">Contraseña:</label>
-                <input type="password" id="password" class="form-control" placeholder="Ingresa tu contraseña">
+                <input type="password" id="password" class="form-control" placeholder="Ingresa tu contraseña" name="password" [(ngModel)]="user.password">
             </div>
-            
+
 
 
             <div class="form-group">
@@ -49,6 +49,6 @@
         </div>
         </form>
 
-        
+
     </div>
 </div>

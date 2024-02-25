@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Chart, ChartConfiguration, registerables } from 'chart.js';
-import { Router } from '@angular/router';
+import { Router,ActivatedRoute } from '@angular/router';
+import { User } from '../usermodels.model';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  saldoUsuario: number = 1000; 
-  numeroCuenta: string = '123456789'; 
-  chart: Chart | undefined; 
-
+  saldoUsuario: number = 1000;
+  numeroCuenta: string = '123456789';
+  chart: Chart | undefined;
+  user: User | null = null;
   acumulado = {
     depositos: 300,
     debitos: 500,
@@ -18,7 +19,7 @@ export class DashboardComponent implements OnInit {
     compras: 200
   };
 
-  constructor(private router: Router) { // Inyectar el Router aquí
+  constructor(private router: Router,private route: ActivatedRoute) { // Inyectar el Router aquí
     Chart.register(...registerables);
   }
 
@@ -33,12 +34,19 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit(): void {
+    this.route.params.subscribe(params => {
+    this.user = JSON.parse(params['user']);
+    });
     this.initChart();
+    if (this.user == null){
+      this.router.navigate(['/not-found'])
+    }
+    console.log(this.user)
   }
 
   initChart(): void {
     const config: ChartConfiguration = {
-      type: 'doughnut', 
+      type: 'doughnut',
       data: {
         labels: ['Depósitos', 'Débitos', 'Retiros', 'Compras'],
         datasets: [{
@@ -60,7 +68,7 @@ export class DashboardComponent implements OnInit {
         }]
       },
       options: {
-      
+
       }
     };
 
@@ -70,5 +78,5 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  
+
 }
