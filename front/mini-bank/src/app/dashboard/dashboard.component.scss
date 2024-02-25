@@ -7,12 +7,12 @@
 
 .dashboard-container {
     padding: 20px;
-    background-color:#011120; // Un color de fondo claro para el panel de control
+    background-color:#0a0120; // Un color de fondo claro para el panel de control
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     h1 {
-        color: #333; // Un color oscuro para el texto
+        color: #ffffff; // Un color oscuro para el texto
     }
 
     .dashboard-menu {
@@ -37,15 +37,60 @@
 }
 
 .saldo-recuadro {
-    background-color: #f0f0f0; /* Gris claro */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative; 
     padding: 20px;
     border-radius: 5px;
-    margin: 0px;
-    font-size: 24px; 
+    background-color: #f0f0f0;
+    border: 1px solid #00ffea;
+    height: 220px;
+    font-size: 150px;
+    box-shadow: 0 0 15px rgba(0, 255, 234, 0.7), 0 0 5px rgba(0, 255, 234, 0.5) inset;
+    /* ... */
+}
+
+
+.disponible-texto {
+    position: absolute;
+    width: calc(100% - 280px); 
+    left: 50%;
+    transform: translateX(-50%);
     text-align: center;
-    font-family: 'Arial', sans-serif; 
-    color: #333;
+}
+
+
+.imagen-cerdoverde {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 250px;
+    width: 250px; 
+}
+
+
+
+  
+
+  .imagen-cerdoverde {
+    height: 250px; /* Altura de la imagen */
+    margin-left: 20px; /* Margen izquierdo para separar del texto */
   }
+  
+
+  .saldo-recuadro div,
+  .saldo-recuadro img {
+    flex-shrink: 0; /* Evita que el texto y la imagen se reduzcan */
+  }
+  
+
+  .texto-disponible {
+    flex-grow: 1; /* Permite que el contenedor del texto crezca */
+    text-align: center; /* Centra el texto dentro del contenedor */
+  }
+  
   .numero-cuenta {
     margin-top: 10px; 
     font-size: 20px;
@@ -55,7 +100,7 @@
     
   }
   
-  /* Estilos existentes... */
+
 
   .transacciones-container {
     display: flex;
@@ -76,3 +121,52 @@
         }
     }
 }
+#myChart {
+    max-width: 800px; 
+    max-height: 800px; 
+  }
+  
+
+/* Estilos existentes... */
+
+.grafico-y-datos {
+    display: flex; 
+    align-items: center;
+    justify-content: space-around;
+    color:white;
+  }
+  
+  .grafico-container {
+    flex: 1; 
+    max-width: 50%; 
+  }
+  
+  .acumulados {
+    flex: 1; 
+    max-width: 50%; 
+    margin-left: 20px;
+    font-size: 20px;
+    margin-top: -400px;
+  }
+  
+
+  .depositos {
+    color: rgba(255, 99, 132, 1); 
+    font-family:sans-serif;
+  }
+  
+  .debitos {
+    color: rgba(54, 162, 235, 1); 
+    font-family:sans-serif;
+  }
+  
+  .retiros {
+    color: rgba(255, 206, 86, 1); 
+    font-family:sans-serif;
+  }
+  
+  .compras {
+    color: rgba(75, 192, 192, 1); 
+    font-family:sans-serif;
+  }
+  

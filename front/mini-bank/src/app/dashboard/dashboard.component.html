@@ -2,7 +2,9 @@
     <h1>Bienvenido, [Nombre de Usuario]</h1>
     <div class="saldo-recuadro">
         Disponible: {{ saldoUsuario }}
+        <img src="assets/cerdoverde.png" alt="Cerdito Verde" class="imagen-cerdoverde">
     </div>
+    
    
     <div class="numero-cuenta">
         Número de Cuenta: {{ numeroCuenta }}
@@ -16,5 +18,16 @@
         <button>Ver Perfil</button>
         <button>Cerrar Sesión</button>
     </div>
+
+    <div class="grafico-y-datos">
+        <div class="acumulados">
+            <h3>Acumulado del último mes</h3>
+            <p class="depositos">Depósitos: {{ acumulado.depositos }}</p>
+            <p class="debitos">Débitos: {{ acumulado.debitos }} </p>
+            <p class="retiros">Retiros: {{ acumulado.retiros }}</p>
+            <p class="compras">Compras: {{ acumulado.compras }}</p>
+          </div>
+          
     <canvas id="myChart" width="400" height="400"></canvas>
+    </div>
 </div>

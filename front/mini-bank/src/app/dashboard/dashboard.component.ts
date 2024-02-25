@@ -11,6 +11,13 @@ export class DashboardComponent implements OnInit {
   numeroCuenta: string = '123456789'; 
   chart: Chart | undefined; 
 
+  acumulado = {
+    depositos: 300,
+    debitos: 500,
+    retiros: 100,
+    compras: 200
+  };
+
   constructor() {
   
     Chart.register(...registerables);
@@ -27,7 +34,7 @@ export class DashboardComponent implements OnInit {
         labels: ['Depósitos', 'Débitos', 'Retiros', 'Compras'],
         datasets: [{
           label: 'Transacciones del último mes',
-          data: [300, 500, 100, 200], 
+          data: [this.acumulado.depositos, this.acumulado.debitos, this.acumulado.retiros, this.acumulado.compras],
           backgroundColor: [
             'rgba(255, 99, 132, 0.2)',
             'rgba(54, 162, 235, 0.2)',
