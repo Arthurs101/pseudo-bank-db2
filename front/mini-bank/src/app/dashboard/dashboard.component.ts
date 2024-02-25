@@ -26,6 +26,12 @@ export class DashboardComponent implements OnInit {
     this.router.navigate(['/historial-transacciones']); // Usa la ruta configurada
   }
 
+
+  realizarTransaccion(): void {
+    this.router.navigate(['/realizar-transaccion']);
+  }
+
+
   ngOnInit(): void {
     this.initChart();
   }
