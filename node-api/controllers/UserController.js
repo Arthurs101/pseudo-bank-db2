@@ -118,7 +118,7 @@ const createUser = async (req, res) => {
             "brand": "Marca del teléfono"
         }
     ],
-    "addresses": [
+    "adrresses": [
         {
             "street_name": "Nombre de la calle",
             "zip_code": "Código postal",
@@ -135,8 +135,19 @@ const createUser = async (req, res) => {
     if (isAuth) {
       if (newuser) {
         try{
-          const newUser = new newUserModel(newuser);
+        let newUser = new newUserModel(newuser);
         // Guardar el nuevo usuario en la base de datos
+        // Recorrer todos los campos de newUser
+        let userFields = {}
+        for (const key in newUser._doc) {
+          if (newUser._doc.hasOwnProperty(key)) {
+            // Asignar el valor del campo de newUser al objeto userFields
+            userFields[key] = newUser[key];
+          }
+        }
+        // Crear una instancia de User con los campos recopilados
+          newUser = new User(userFields);
+          // Guardar la instancia de User en la base de datos
           await newUser.save();
           // Devolver una respuesta exitosa
           res.status(201).json({ message: 'Usuario creado exitosamente', user: newUser });
@@ -228,6 +239,93 @@ const updatePhone = async (req, res) => {
 }
 }
 
+const addAddress = async (req, res) => {
+  try {
+    const { user_code, password, new_address } = req.body;
+    const user = await User.findOne({ user_code: Number(user_code) }, { user_code: 1, names:1 ,hashed_password: 1, adrresses: 1 });
+
+    if (!user || user.hashed_password !== password) {
+      res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+    }
+    // Verificar si la dirección ya existe para el usuario
+    const existingAddress = user.adrresses.find(a =>
+      a.street_name === new_address.street_name &&
+      a.zip_code === new_address.zip_code &&
+      a.city === new_address.city
+    );
+
+    if (existingAddress) {
+      console.log(user)
+      res.status(400).json({ message: 'La dirección ya existe para este usuario' });
+    }else{
+      // Agregar la dirección al usuario
+      var parsed = {
+        street_name : String(new_address.street_name) ,
+        zip_code :String( new_address.zip_code) ,
+        city : String(new_address.city)
+      }
+      user.adrresses.push(new_address);
+      await user.save();
+      res.status(200).json({ message: 'Dirección agregada correctamente', user });
+    }
+
+    
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno al agregar dirección', error: error.message });
+  }
+};
+
+const updateAddress = async (req, res) => {
+  try {
+    const { user_code, password, old_address, new_address_data } = req.body;
+    let updateFields = {};
+    Object.keys(new_address_data).forEach(key => {
+      updateFields[`adrresses.$.${key}`] = new_address_data[key];
+    });
+    const user = await User.findOneAndUpdate(
+      {
+        user_code: Number(user_code),
+        hashed_password: password,
+        "adrresses.street_name": old_address.street_name,
+        "adrresses.zip_code": old_address.zip_code,
+        "adrresses.city": old_address.city
+      },
+      { $set: updateFields },
+      { new: true }
+    );
+
+    if (!user) {
+      return res.status(404).json({ message: 'Usuario no encontrado, contraseña incorrecta o dirección no encontrada' });
+    }
+
+    res.status(200).json({ message: 'Dirección actualizada correctamente', user });
+  } catch (error) {
+    res.status(500).json({ message: 'Error interno al actualizar dirección', error: error.message });
+  }
+};
+
+const deleteAddress = async (req, res) => {
+  const {user_code, password, address} = req.body
+  const user = await User.findOne({ user_code: Number(user_code)},{hashed_password: 1 ,adrresses: 1});
+  // Verificar si el usuario existe y la contraseña coincide
+  if (!user || user.hashed_password !== password) {
+    res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+  }
+  if (user.adrresses.length === 1) {
+    res.status(400).json({ message: 'No se puede eliminar la dirección única del usuario' });
+  }
+  try{
+    user.adrresses = user.adrresses.filter(ad => ad.street_name !== address.street_name &&
+      ad.zip_code !== address.zip_code &&
+      ad.city !== address.city);
+    await user.save();
+    res.status(200).json({ message: 'Direccion eliminada correctamente', user });
+
+  }catch(error){
+    res.status(400).json({ message: "Error eliminadno la direccion indicada",eror: error.message });
+  }
+}
+
 module.exports = {
     login,
     updateUser,
@@ -235,5 +333,9 @@ module.exports = {
     createUser,
     deletePhone,
     addPhone,
-    updatePhone
+    updatePhone,
+    addAddress,
+    updateAddress,
+    deleteAddress
+
 }

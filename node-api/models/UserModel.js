@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
     postal_code: String,
     brand: String
   }],
-  addresses: [{
+  adrresses: [{
     street_name: String,
     zip_code: String,
     city: String
@@ -54,7 +54,7 @@ const createUserSchema = new mongoose.Schema({
       postal_code: { type: String },
       brand: { type: String }
   }],
-  addresses: [{
+  adrresses: [{
       street_name: { type: String },
       zip_code: { type: String },
       city: { type: String }
