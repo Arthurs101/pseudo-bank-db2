@@ -8,7 +8,7 @@ import { Transaction } from './transaction.model';
   providedIn: 'root'
 })
 export class TransactionService {
-  private apiUrl = 'tu_api_url'; // api url
+  private apiUrl = 'mi_api_url'; // api url
 
   constructor(private http: HttpClient) {}
 
