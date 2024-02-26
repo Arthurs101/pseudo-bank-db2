@@ -52,4 +52,28 @@ const newTransaction =  async (req, res) => {
     }
 };
 
+const { TransactionModel } = require('../models/TransactionModel');
+
+// GET para obtener el historial de transacciones de una cuenta
+const getAccountTransactionHistory = async (req, res) => {
+  const { account_number } = req.params; 
+
+  try {
+    // Buscar transacciones relacionadas con la cuenta (origen o destino)
+    const transactions = await TransactionModel.find({
+      $or: [
+        { account_from: account_number },
+        { account_to: accotraunt_number }
+      ]
+    });
+
+    res.status(200).json({ transactions });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Error al obtener el historial de transacciones' });
+  }
+};
+
+module.exports = { getAccountTransactionHistory };
+
 module.exports = {newTransaction};
