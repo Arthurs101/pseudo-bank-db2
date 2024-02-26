@@ -1,38 +1,46 @@
 <div class="dashboard-container">
     <h1>Bienvenido, {{(user && user.names && user.lastnames) ? (user.names + " " + user.lastnames) : ''}}</h1>
     <div class="saldo-recuadro">
-        Disponible: {{ saldoUsuario }}
+        Credit Score: {{ user?.credit_score }}
         <img src="assets/cerdoverde.png" alt="Cerdito Verde" class="imagen-cerdoverde">
-    </div>
-
-
-    <div class="numero-cuenta">
-        Número de Cuenta: {{ numeroCuenta }}
     </div>
     <!-- Contenedor para los botones de transacciones -->
     <div class="transacciones-container">
-
-<button (click)="realizarTransaccion()">Realizar Transacciones</button>
-
-
-<button (click)="goToHistorialTransacciones()">Historial de Transacciones</button>
-
-
+    <button (click)="realizarTransaccion()">Realizar Transacciones</button>
+    <button (click)="goToHistorialTransacciones()">Historial de Transacciones</button>
     </div>
-    <div class="dashboard-menu">
+<div class="dashboard-menu">
 
-        <button>Cerrar Sesión</button>
-    </div>
+    <button>Cerrar Sesión</button>
+</div>
+<div class="uk-card-body">
+  <div class="chart-container uk-overflow-auto">
+      <table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
+          <thead>
+              <tr>
+                  <th class="uk-table-small">Código</th>
+                  <th class="uk-table-large">Tipo</th>
+                  <th class="uk-table-expand">Blance</th>
+                  <th class="uk-table-small">Divisa</th>
+                  <th class="uk-table-small">Estado</th>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container *ngFor="let account  of user?.accounts">
+                  <tr >
+                    <td>{{ account?.account_number}}</td>
+                    <td>{{ account?.type }}</td>
+                    <td>{{ account?.balance }}</td>
+                    <td>{{ account?.currency }}</td>
+                    <td>{{ account?.status}}</td>
+                  </tr>
+              </ng-container>
+          </tbody>
+      </table>
+      <ng-template #empty>
+          <h3>Datos no encontrados, por favor verifica tus filtros.</h3>
+      </ng-template>
+  </div>
+</div>
 
-    <div class="grafico-y-datos">
-        <div class="acumulados">
-            <h3>Acumulado del último mes</h3>
-            <p class="depositos">Depósitos: {{ acumulado.depositos }}</p>
-            <p class="debitos">Débitos: {{ acumulado.debitos }} </p>
-            <p class="retiros">Retiros: {{ acumulado.retiros }}</p>
-            <p class="compras">Compras: {{ acumulado.compras }}</p>
-          </div>
-
-    <canvas id="myChart" width="400" height="400"></canvas>
-    </div>
 </div>

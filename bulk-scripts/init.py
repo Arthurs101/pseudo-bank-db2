@@ -46,7 +46,7 @@ def generate_user():
     # Generar al menos una cuenta bancaria
     account = {
         "account_number": fake.random_number(digits=13),
-        "type": random.choice(account_types),
+        "account_type": random.choice(account_types),
         "balance": round(random.uniform(100, 10000), 2),
         "currency": random.choice(currencies),
         "status": random.choice(account_statuses),
