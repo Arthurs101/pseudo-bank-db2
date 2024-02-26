@@ -1,1 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
+@import "colors.scss";
+.chart-container{
+  height: 60vh;
+  margin: 0;
+  overflow: auto;
+}
+.card-container{
+  background: white;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  border-radius: 1rem;
+  padding: 10px;
+  &:hover,:focus{
+    box-shadow: grey 1px 1px;
+  }
+}
+.responsive-table{
+  width: 100%;
+  max-width: none;
+  white-space: normal;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: 'Inder';
+  font-weight: lighter;
+  & thead{
+    text-transform: uppercase;
+    border-bottom: 1px solid $light-grey;
+    color: $deep-blue !important;
+    padding-bottom: 5px;
+  }
+  & tbody{
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: $silver-blue;
+    & tr{
+      border-bottom: 1px solid $light-grey;
+      & td.product-image{
+        & img{
+        max-width: 80px;
+        max-height: 80px;
+        border-radius: 1rem;
+        }
+      }
+      &:hover{
+        background-color: $light-grey-blue;
+      }
+      &:nth-last-of-type(even){
+        background-color: $soft-grey;
+        &:hover{
+          background-color: $light-grey-blue;
+        }
+      }
+    }
+  }
+  & th, & td{
+    padding: 20px 10px;
+  }
+
+  .aux-text{
+    display: none;
+  }
+}

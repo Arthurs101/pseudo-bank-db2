@@ -41,7 +41,7 @@ export class DashboardComponent implements OnInit {
     if (this.user == null){
       this.router.navigate(['/not-found'])
     }
-    console.log(this.user)
+    console.log(this.user?.accounts)
   }
 
   initChart(): void {

@@ -13,9 +13,9 @@
 
     <button>Cerrar Sesión</button>
 </div>
-<div class="uk-card-body">
-  <div class="chart-container uk-overflow-auto">
-      <table class="uk-table uk-table-small uk-table-striped uk-table-responsive">
+<div class="card-container">
+  <div class="chart-container">
+      <table  class="responsive-table">
           <thead>
               <tr>
                   <th class="uk-table-small">Código</th>
@@ -29,7 +29,7 @@
               <ng-container *ngFor="let account  of user?.accounts">
                   <tr >
                     <td>{{ account?.account_number}}</td>
-                    <td>{{ account?.type }}</td>
+                    <td>{{ account?.account_type }}</td>
                     <td>{{ account?.balance }}</td>
                     <td>{{ account?.currency }}</td>
                     <td>{{ account?.status}}</td>
