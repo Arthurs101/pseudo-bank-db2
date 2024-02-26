@@ -9,7 +9,6 @@ const userSchema = new mongoose.Schema({
   user_code: Number,
   hashed_password: String,
   accounts: [{
-    account_number: Number,
     account_type: String,
     balance: Number,
     currency: String,

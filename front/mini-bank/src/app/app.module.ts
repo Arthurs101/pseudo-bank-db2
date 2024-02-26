@@ -10,15 +10,17 @@ import { RealizarTransaccionComponent } from './realizar-transaccion/realizar-tr
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
+import { AccountsComponent } from './accounts/accounts.component';
 
 @NgModule({
-  declarations: [	
+  declarations: [		
     AppComponent,
     LoginComponent,
     DashboardComponent,
     HistorialTransaccionesComponent,
     RealizarTransaccionComponent,
-      NotFoundComponentComponent
+      NotFoundComponentComponent,
+      AccountsComponent
    ],
   imports: [
     BrowserModule,

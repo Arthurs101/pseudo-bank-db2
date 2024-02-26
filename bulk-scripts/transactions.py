@@ -23,8 +23,8 @@ def generate_transaction(users):
         "ammount": round(random.uniform(1, 10000), 2),
         "date": fake.date_this_year().strftime('%Y-%m-%d'),
         "currency": random.choice(currencies),
-        "account_from": from_account["account_number"],
-        "account_to": to_account["account_number"]
+        "account_from": from_account["_id"],
+        "account_to": to_account["_id"]
     }
     return transaction
 

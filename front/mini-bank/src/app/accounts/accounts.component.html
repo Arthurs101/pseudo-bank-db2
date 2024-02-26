@@ -1,0 +1,58 @@
+<div class="card-container" *ngIf="view == 0">
+  <h1>Cuentas Bancarias</h1>
+  <div class="chart-container">
+      <table  class="responsive-table">
+          <thead>
+              <tr>
+                  <td>Código</td>
+                  <td>Tipo</td>
+                  <td>Blance</td>
+                  <td>Divisa</td>
+                  <td>Estado</td>
+              </tr>
+          </thead>
+          <tbody>
+              <ng-container *ngFor="let account  of accounts">
+                  <tr >
+                    <td>{{ account?.account_number}}</td>
+                    <td>{{ account?.account_type }}</td>
+                    <td>{{ account?.balance }}</td>
+                    <td>{{ account?.currency }}</td>
+                    <td>{{ account?.status}}</td>
+                  </tr>
+              </ng-container>
+          </tbody>
+      </table>
+      <ng-template #empty>
+          <h3>Datos no encontrados, por favor verifica tus filtros.</h3>
+      </ng-template>
+  </div>
+</div>
+<div class="card-container" id="new-account" *ngIf="view == 3">
+  <h1>Abrir una cuenta bancaria</h1>
+  <form>
+    <div class="form-group">
+        <label for="account_type">Tipo de cuenta:</label>
+        <select class="form-control" id="account_type">
+          <option  *ngFor="let cat of account_types" [value]="cat['id']">{{cat['value']}}</option>
+        </select>
+    </div>
+    <div class="form-group">
+        <label for="balance">Balance Inicial:</label>
+        <input type="number" id="balance" class="form-control" placeholder="0.00" name="password" >
+    </div>
+    <div class="form-group">
+      <label for="div">Divisa para la cuenta:</label>
+      <select class="form-control" id="div">
+        <option  *ngFor="let curr of currencies" [value]="curr">{{curr}}</option>
+      </select>
+  </div>
+  <div class="form-group">
+    <label for="place">Tipo de cuenta:</label>
+    <select class="form-control" id="place">
+      <option  *ngFor="let place of places" [value]="place?._id">{{place.zip_code + " "+ place.city+ " " + place.country}}</option>
+    </select>
+</div>
+        <button type="button" class="btn btn-secondary" >Aperturar Cuenta</button>
+  </form>
+</div>

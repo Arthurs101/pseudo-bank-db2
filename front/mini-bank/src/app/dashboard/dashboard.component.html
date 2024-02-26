@@ -6,41 +6,17 @@
     </div>
     <!-- Contenedor para los botones de transacciones -->
     <div class="transacciones-container">
-    <button (click)="realizarTransaccion()">Realizar Transacciones</button>
-    <button (click)="goToHistorialTransacciones()">Historial de Transacciones</button>
+    <button (click)="setView(1)" *ngIf="view!=1">Transacciones</button>
+    <button (click)="setView(2)" *ngIf="view!=2">Préstamos</button>
+    <button (click)="setView(0)" *ngIf="view!=0">Cuentas de banco</button>
+    <button (click)="setView(3)" *ngIf="view!=3">Abrir cuenta</button>
+    <button (click)="setView(4)" *ngIf="view!=4">Configuraciones de Usuario</button>
     </div>
 <div class="dashboard-menu">
-
     <button>Cerrar Sesión</button>
 </div>
-<div class="card-container">
-  <div class="chart-container">
-      <table  class="responsive-table">
-          <thead>
-              <tr>
-                  <th class="uk-table-small">Código</th>
-                  <th class="uk-table-large">Tipo</th>
-                  <th class="uk-table-expand">Blance</th>
-                  <th class="uk-table-small">Divisa</th>
-                  <th class="uk-table-small">Estado</th>
-              </tr>
-          </thead>
-          <tbody>
-              <ng-container *ngFor="let account  of user?.accounts">
-                  <tr >
-                    <td>{{ account?.account_number}}</td>
-                    <td>{{ account?.account_type }}</td>
-                    <td>{{ account?.balance }}</td>
-                    <td>{{ account?.currency }}</td>
-                    <td>{{ account?.status}}</td>
-                  </tr>
-              </ng-container>
-          </tbody>
-      </table>
-      <ng-template #empty>
-          <h3>Datos no encontrados, por favor verifica tus filtros.</h3>
-      </ng-template>
-  </div>
+<div class="panel-contens">
+  <app-accounts [accounts]="user?.accounts" [view]="view" *ngIf="view==0 || view==3"> ></app-accounts>
 </div>
 
 </div>

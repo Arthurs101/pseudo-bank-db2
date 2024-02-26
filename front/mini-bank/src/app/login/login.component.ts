@@ -17,7 +17,8 @@ export class LoginComponent {
     this.service.login(this.user.username,this.user.password).subscribe(
       (User: User) => {
         // Se ejecuta cuando la llamada al servicio es exitosa
-        this.router.navigate(['/dashboard',{user:JSON.stringify(User)}]);
+        this.service.setUser(User)
+        this.router.navigate(['/dashboard']);
         // Aquí puedes hacer lo que necesites con el usuario devuelto
       },
       (error) => {

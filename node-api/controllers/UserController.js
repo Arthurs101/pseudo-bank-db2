@@ -1,5 +1,6 @@
 const {User,newUserModel} = require('../models/UserModel');
 const {TransactionModel }  = require('../models/TransactionModel');
+const  ObjectID = require('mongodb').ObjectID;
 //login del usuario
 const login = async (req, res)  => {
         try {
@@ -326,6 +327,18 @@ const deleteAddress = async (req, res) => {
     res.status(400).json({ message: "Error eliminadno la direccion indicada",eror: error.message });
   }
 }
+const addAccount = async(req, res) => {
+  const { user_id ,accountData }  = req.body;
+  const user = await User.findById(String(user_id),{accounts:1});
+  if(!user){
+    res.status(404).json({message:"usuario no hallado"})
+  }else{
+    user.accounts.push(accountData)
+    user.save()
+    res.status(200).json(user)
+  }
+  
+}
 
 module.exports = {
     login,
@@ -337,6 +350,7 @@ module.exports = {
     updatePhone,
     addAddress,
     updateAddress,
-    deleteAddress
+    deleteAddress,
+    addAccount
 
 }

@@ -1,5 +1,6 @@
 import random
 from faker import Faker
+from bson.objectid import ObjectId
 
 fake = Faker()
 
@@ -29,23 +30,15 @@ def generate_user():
         "user_code": fake.random_number(digits=13),
         "hashed_password": fake.password(),
         "accounts": [],
-        "phones": [{
-            "number": fake.random_number(digits=8),
-            "postal_code": random.choice(['+502', '+1']),
-            "brand": random.choice(['tigo', 'claro','at&t'])
-        }],
-        "adrresses": [{
-            "street_name": fake.street_name(),
-            "zip_code": fake.zipcode(),
-            "city": fake.city()
-        }],
+        "phones": [],
+        "adrresses": [],
         "loans": [],
-        "type":"client"
+        "type": "client"
     }
     
     # Generar al menos una cuenta bancaria
     account = {
-        "account_number": fake.random_number(digits=13),
+        "_id": ObjectId(),  # Generar ObjectId único
         "account_type": random.choice(account_types),
         "balance": round(random.uniform(100, 10000), 2),
         "currency": random.choice(currencies),
@@ -58,7 +51,7 @@ def generate_user():
     num_accounts = random.randint(0, 2)
     for _ in range(num_accounts):
         account = {
-            "account_number": fake.random_number(digits=13),
+            "_id": ObjectId(),  # Generar ObjectId único
             "account_type": random.choice(account_types),
             "balance": round(random.uniform(100, 10000), 2),
             "currency": random.choice(currencies),
@@ -66,6 +59,28 @@ def generate_user():
             "created_at": fake.date_this_century().strftime('%d/%m/%Y')
         }
         user["accounts"].append(account)
+    
+    # Generar datos para phones
+    num_phones = random.randint(1, 3)
+    for _ in range(num_phones):
+        phone = {
+            "_id": ObjectId(),  # Generar ObjectId único
+            "number": fake.random_number(digits=8),
+            "postal_code": random.choice(['+502', '+1']),
+            "brand": random.choice(['tigo', 'claro','at&t'])
+        }
+        user["phones"].append(phone)
+    
+    # Generar datos para adrresses
+    num_addresses = random.randint(1, 2)
+    for _ in range(num_addresses):
+        address = {
+            "_id": ObjectId(),  # Generar ObjectId único
+            "street_name": fake.street_name(),
+            "zip_code": fake.zipcode(),
+            "city": fake.city()
+        }
+        user["adrresses"].append(address)
     
     return user
 
@@ -76,7 +91,7 @@ def generate_branch():
         "street": fake.street_name(),
         "city": fake.city(),
         "zip_code": fake.zipcode(),
-        "type": random.choice(branch_types)
+        "place_type": random.choice(branch_types)
     }
     return branch
 
@@ -98,7 +113,6 @@ branch_ids = [branch['_id'] for branch in branches]
 
 # Generar usuarios con cuentas bancarias
 users = [generate_user() for _ in range(50000)]
-
 
 #General empleados y admins
 for _ in range(200):
