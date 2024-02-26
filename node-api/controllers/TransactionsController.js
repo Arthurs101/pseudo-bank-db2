@@ -53,19 +53,47 @@ const newTransaction =  async (req, res) => {
 };
 
 const { TransactionModel } = require('../models/TransactionModel');
+const { Account } = require('../models/AccountModel');
 
 // GET para obtener el historial de transacciones de una cuenta
 const getAccountTransactionHistory = async (req, res) => {
-  const { account_number } = req.params; 
+  const { account_number } = req.params;
 
   try {
     // Buscar transacciones relacionadas con la cuenta (origen o destino)
-    const transactions = await TransactionModel.find({
-      $or: [
-        { account_from: account_number },
-        { account_to: accotraunt_number }
-      ]
-    });
+    const transactions = await TransactionModel.aggregate([
+      {
+        $match: {
+          $or: [
+            { account_from: account_number },
+            { account_to: account_number }
+          ]
+        }
+      },
+      {
+        $lookup: {
+          from: "accounts",
+          localField: "account_to",
+          foreignField: "account_number",
+          as: "destination_account"
+        }
+      },
+      {
+        $addFields: {
+          destination_account: { $arrayElemAt: ["$destination_account", 0] }
+        }
+      },
+      {
+        $project: {
+          _id: 0,
+          amount: 1,
+          date: 1,
+          currency: 1,
+          "destination_account.account_number": 1, // Include account_number if needed
+          "destination_account.names": 1, // Select only names
+        }
+      }
+    ]);
 
     res.status(200).json({ transactions });
   } catch (error) {
@@ -73,6 +101,7 @@ const getAccountTransactionHistory = async (req, res) => {
     res.status(500).json({ message: 'Error al obtener el historial de transacciones' });
   }
 };
+
 
 module.exports = { getAccountTransactionHistory };
 
