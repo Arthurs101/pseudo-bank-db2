@@ -14,7 +14,7 @@
           <tbody>
               <ng-container *ngFor="let account  of accounts">
                   <tr >
-                    <td>{{ account?.account_number}}</td>
+                    <td>{{ account?._id}}</td>
                     <td>{{ account?.account_type }}</td>
                     <td>{{ account?.balance }}</td>
                     <td>{{ account?.currency }}</td>

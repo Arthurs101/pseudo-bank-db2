@@ -7,6 +7,7 @@
     <!-- Contenedor para los botones de transacciones -->
     <div class="transacciones-container">
     <button (click)="setView(1)" *ngIf="view!=1">Transacciones</button>
+    
     <button (click)="setView(2)" *ngIf="view!=2">Préstamos</button>
     <button (click)="setView(0)" *ngIf="view!=0">Cuentas de banco</button>
     <button (click)="setView(3)" *ngIf="view!=3">Abrir cuenta</button>
