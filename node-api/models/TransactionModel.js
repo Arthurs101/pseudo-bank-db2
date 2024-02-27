@@ -4,8 +4,8 @@ const TransactionSchema = new mongoose.Schema({
     ammount: Number,
     date: String,
     currency: String,
-    account_from: Number,
-    account_to: Number
+    account_from: mongoose.Types.ObjectId,
+    account_to: mongoose.Types.ObjectId
 })
 
 const LoanSchema = new mongoose.Schema({

@@ -29,8 +29,8 @@ const newTransaction =  async (req, res) => {
         }
 
         // Actualizar los saldos de las cuentas correspondientes
-        originAccount.balance -= amount;
-        destinationAccount.balance += amount;
+        originAccount.balance -= Number(amount);
+        destinationAccount.balance += Number(amount);
 
         // Aplicar las tasas de cambio si es necesario (aquí puedes implementar la lógica necesaria)
 
@@ -38,18 +38,16 @@ const newTransaction =  async (req, res) => {
         await originAccount.save();
         await destinationAccount.save();
 
-        // // Crear y guardar la transacción en la base de datos
-        // const transaction = new TransactionModel({
-        //     amount,
-        //     date: new Date().toISOString(),
-        //     currency,
-        //     account_from: origin_account_number,
-        //     account_to: destination_account_number
-        // });
-        // await transaction.save();
-
-        // res.status(201).json({ message: 'Transacción creada exitosamente', transaction });
-        res.status(200).json({status: 'OK'});
+        // Crear y guardar la transacción en la base de datos
+        const transaction = new TransactionModel({
+            amount:Number(amount),
+            date: new Date().toISOString(),
+            currency:currency,
+            account_from: new ObjectId(String(account_from)),
+            account_to: new ObjectId(String(account_to))
+        });
+        await transaction.save();
+        res.status(200).json({ message: 'Transacción creada exitosamente', transaction });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error interno del servidor' });
