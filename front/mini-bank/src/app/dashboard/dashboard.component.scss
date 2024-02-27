@@ -3,16 +3,26 @@
     height: 100vh;
     background-color: #011120;
 }
+@font-face {
+  font-family: 'Knile';
+  src: url('../../assets/Knile-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
 
+body{
+  font-family: 'Knile', sans-serif;
+}
 
 .dashboard-container {
     padding: 20px;
-    background-color:#0a0120; // Un color de fondo claro para el panel de control
+    background-color:#2c307c; // Un color de fondo claro para el panel de control
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     h1 {
         color: #ffffff; // Un color oscuro para el texto
+        font-family: 'Knile', sans-serif;
     }
 
     .dashboard-menu {
@@ -83,12 +93,14 @@
   .saldo-recuadro div,
   .saldo-recuadro img {
     flex-shrink: 0; /* Evita que el texto y la imagen se reduzcan */
+    font-family: 'Knile', sans-serif;
   }
   
 
   .texto-disponible {
     flex-grow: 1; /* Permite que el contenedor del texto crezca */
     text-align: center; /* Centra el texto dentro del contenedor */
+    font-family: 'Knile', sans-serif;
   }
   
   .numero-cuenta {
@@ -169,4 +181,35 @@
     color: rgba(75, 192, 192, 1); 
     font-family:sans-serif;
   }
-  
+  .header-image img {
+    width: 100%;
+    height: auto; 
+    display: block; 
+}
+
+
+
+.transacciones-container {
+  background-color: #fff; 
+  padding: 20px;
+  display: flex; 
+  justify-content: space-around; 
+  flex-wrap: wrap; 
+  font-family: 'Knile', sans-serif;
+}
+
+
+.button-with-icon {
+  display: flex;
+  flex-direction: row; /* Icono arriba, texto abajo */
+  align-items: center; /* Centrado horizontalmente */
+  margin: 10px; 
+  font-family: 'Knile', sans-serif;
+}
+
+
+.button-icon {
+  margin-bottom: 5px; 
+  width: 200px; /* Ancho del icono */
+  height: auto; /* Altura automática para mantener la proporción */
+}

@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "mini-bank:build:production"
+              "buildTarget": "mini-bank:build:production"
             },
             "development": {
-              "browserTarget": "mini-bank:build:development"
+              "buildTarget": "mini-bank:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "mini-bank:build"
+            "buildTarget": "mini-bank:build"
           }
         },
         "test": {

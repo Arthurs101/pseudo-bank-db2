@@ -10,6 +10,12 @@ import { minibankService } from '../backend.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  images = [
+    'assets/img1.jpg',
+    'assets/img2.jpg',
+    'assets/img3.jpg',
+    // ... más imágenes
+  ];
   user: User | null = null;
   view = 0;
 

@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
 import { AccountsComponent } from './accounts/accounts.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
-
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [		
     AppComponent,
@@ -28,7 +28,8 @@ import { UserSettingsComponent } from './user-settings/user-settings.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
