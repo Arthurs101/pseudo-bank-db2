@@ -13,7 +13,6 @@ export class minibankService{
   private user : User | null = null;
 
 
-
   performTransaction(transaction: Transaction): Observable<Transaction> {
     const httpOptions = {
       headers: new HttpHeaders({
@@ -44,4 +43,14 @@ export class minibankService{
   }
   getUser(){return this.user}
   getPlaces(){return this.http.get<Branch[]>(this.url + "/places")}
+
+
+  updateUser(user: User): Observable<User> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json'
+      })
+    };
+    return this.http.put<User>(`${this.url}/user/update`, user, httpOptions);
+  }
 }

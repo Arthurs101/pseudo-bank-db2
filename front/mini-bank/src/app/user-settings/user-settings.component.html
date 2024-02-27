@@ -8,3 +8,26 @@
     </div>
   </div>
   
+
+
+  <div *ngIf="user">
+    <h2>Configuración del Usuario</h2>
+    <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+      <div>
+        <label for="names">Nombre:</label>
+        <input id="names" type="text" formControlName="name">
+      </div>
+      <div>
+        <label for="lastnames">Apellidos:</label>
+        <input id="lastnames" type="text" formControlName="lastName">
+      </div>
+      <div>
+        <label for="nationality">Nacionalidad:</label>
+        <input id="nationality" type="text" formControlName="nationality">
+      </div>
+      <!-- Agregar más campos si es necesario -->
+  
+      <button type="submit" [disabled]="!userForm.valid">Guardar Cambios</button>
+    </form>
+  </div>
+  
