@@ -6,24 +6,25 @@ const castAggregation = require('mongoose-cast-aggregation');
 const { ObjectId } = require('mongodb');
 // POST para crear una nueva transacción
 const newTransaction =  async (req, res) => {
-    const { user_code, password, origin_account_number, destination_account_number, amount, currency } = req.body;
+    const { user_id, account_from, account_to, amount, currency } = req.body;
 
     try {
         // Verificar la autenticidad del usuario
-        const user = await User.findOne({ user_code, hashed_password: password });
+        const user = await User.findById(user_id);
         if (!user) {
             return res.status(401).json({ message: 'Credenciales de usuario incorrectas' });
         }
 
         // Verificar que las cuentas de origen y destino existan
-        const originAccount = user.accounts.find(account => account.account_number === origin_account_number);
-        const destinationAccount = await Account.findOne({ account_number: destination_account_number });
+        console.log(new ObjectId(String(account_from)))
+        const originAccount = user.accounts.find(account => account._id.toString() == (String(account_from)));
+        let destinationAccount = await User.findOne({ "accounts._id":new ObjectId(String(account_to))},{"accounts":1});
         if (!originAccount || !destinationAccount) {
             return res.status(404).json({ message: 'Cuenta de origen o destino no encontrada' });
         }
 
         // Verificar que la cantidad a transferir no exceda el saldo disponible en la cuenta de origen
-        if (originAccount.balance < amount) {
+        if (originAccount.balance < Number(amount)) {
             return res.status(400).json({ message: 'Saldo insuficiente en la cuenta de origen' });
         }
 
@@ -37,17 +38,18 @@ const newTransaction =  async (req, res) => {
         await originAccount.save();
         await destinationAccount.save();
 
-        // Crear y guardar la transacción en la base de datos
-        const transaction = new TransactionModel({
-            amount,
-            date: new Date().toISOString(),
-            currency,
-            account_from: origin_account_number,
-            account_to: destination_account_number
-        });
-        await transaction.save();
+        // // Crear y guardar la transacción en la base de datos
+        // const transaction = new TransactionModel({
+        //     amount,
+        //     date: new Date().toISOString(),
+        //     currency,
+        //     account_from: origin_account_number,
+        //     account_to: destination_account_number
+        // });
+        // await transaction.save();
 
-        res.status(201).json({ message: 'Transacción creada exitosamente', transaction });
+        // res.status(201).json({ message: 'Transacción creada exitosamente', transaction });
+        res.status(200).json({status: 'OK'});
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error interno del servidor' });
@@ -59,8 +61,6 @@ const getUserTransactions = async (req, res) => {
         // ID del usuario proporcionado en la solicitud
         // Realiza la agregación utilizando el método aggregate()
         const user_id = String(req.query.userId)
-        console.log(new ObjectId("65dc054482403143ff509771"))
-        console.log()
         const result = await User.aggregate([
             {
                 $unwind: "$accounts"
