@@ -5,6 +5,8 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { HistorialTransaccionesComponent } from './historial-transacciones/historial-transacciones.component';
 import { RealizarTransaccionComponent } from './realizar-transaccion/realizar-transaccion.component';
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -13,7 +15,7 @@ const routes: Routes = [
   { path: 'historial-transacciones', component: HistorialTransaccionesComponent },
   { path: 'realizar-transaccion', component: RealizarTransaccionComponent },
   {path :'not-found', component: NotFoundComponentComponent },
-
+  { path: 'configuracion-usuario', component: UserSettingsComponent },
 ];
 
 @NgModule({

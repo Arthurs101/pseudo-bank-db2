@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
 import { AccountsComponent } from './accounts/accounts.component';
+import { UserSettingsComponent } from './user-settings/user-settings.component';
 
 @NgModule({
   declarations: [		
@@ -20,7 +21,8 @@ import { AccountsComponent } from './accounts/accounts.component';
     HistorialTransaccionesComponent,
     RealizarTransaccionComponent,
       NotFoundComponentComponent,
-      AccountsComponent
+      AccountsComponent,
+      UserSettingsComponent
    ],
   imports: [
     BrowserModule,

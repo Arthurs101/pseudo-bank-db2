@@ -27,7 +27,9 @@ export class DashboardComponent implements OnInit {
     if (view === 1) {
       this.router.navigate(['/realizar-transaccion']); 
     }
-   
+    else if (view === 4) {
+      this.router.navigate(['/configuracion-usuario']);
+    }
   }
 
   ngOnInit(): void {
