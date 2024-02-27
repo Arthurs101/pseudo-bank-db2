@@ -1,7 +1,9 @@
 
 const {TransactionModel} = require('../models/TransactionModel');
 const {User} = require('../models/UserModel');
-
+const mongoose = require('mongoose');
+const castAggregation = require('mongoose-cast-aggregation');
+const { ObjectId } = require('mongodb');
 // POST para crear una nueva transacción
 const newTransaction =  async (req, res) => {
     const { user_code, password, origin_account_number, destination_account_number, amount, currency } = req.body;
@@ -52,57 +54,145 @@ const newTransaction =  async (req, res) => {
     }
 };
 
-const { TransactionModel } = require('../models/TransactionModel');
-const { Account } = require('../models/AccountModel');
-
-// GET para obtener el historial de transacciones de una cuenta
-const getAccountTransactionHistory = async (req, res) => {
-  const { account_number } = req.params;
-
-  try {
-    // Buscar transacciones relacionadas con la cuenta (origen o destino)
-    const transactions = await TransactionModel.aggregate([
-      {
-        $match: {
-          $or: [
-            { account_from: account_number },
-            { account_to: account_number }
-          ]
-        }
-      },
-      {
-        $lookup: {
-          from: "accounts",
-          localField: "account_to",
-          foreignField: "account_number",
-          as: "destination_account"
-        }
-      },
-      {
-        $addFields: {
-          destination_account: { $arrayElemAt: ["$destination_account", 0] }
-        }
-      },
-      {
-        $project: {
-          _id: 0,
-          amount: 1,
-          date: 1,
-          currency: 1,
-          "destination_account.account_number": 1, // Include account_number if needed
-          "destination_account.names": 1, // Select only names
-        }
+const getUserTransactions = async (req, res) => {
+    try {
+        // ID del usuario proporcionado en la solicitud
+        // Realiza la agregación utilizando el método aggregate()
+        const user_id = String(req.query.userId)
+        console.log(new ObjectId("65dc054482403143ff509771"))
+        console.log()
+        const result = await User.aggregate([
+            {
+                $unwind: "$accounts"
+              },
+            {
+            $match: {
+               "_id":new ObjectId(user_id)}
+            },
+            {$lookup: {
+                from: "transactions",
+                localField: "accounts._id",
+                foreignField: "account_from",
+                as: "account_transactions"
+              }}
+              ,
+              {
+                  $unwind: "$account_transactions"
+              },
+               {$lookup: {
+                     from: "users",
+                     localField: "account_transactions.account_to",
+                     foreignField: "accounts._id",
+                     as: "foreign_user"
+                   }},
+              {$unwind: "$foreign_user"},
+              {
+              $project: {
+                "account_transactions._id": 1,
+                "account_transactions.currency": 1,
+                "account_transactions.account_to": 1,
+                "account_transactions.account_from":1,
+                "account_transactions.date":1,
+                "account_transactions.ammount":1,
+                "foreign_user": {
+                    "names":1,
+                    "lastnames":1,
+                    "accounts":{$filter: {
+                      input: "$foreign_user.accounts",
+                      as: "item",
+                      cond: { $eq: ["$$item._id","$account_transactions.account_to"]}
+                    }}
+                }
+              }},
+              {$unwind: "$foreign_user.accounts"},
+              {$addFields: {"account_transactions.account_type" :"$foreign_user.accounts.account_type",
+              "account_transactions.account_owner_name":"$foreign_user.names",
+              "account_transactions.account_owner_lastname":"$foreign_user.lastnames",
+              "account_transactions.transaction_type":"usermade",
+                   
+              }},
+              {$project: {"account_transactions":1}},
+              //convert result into array
+              {$group: { _id: null, "transactions": {$push: "$account_transactions"}}},
+              //remove the _id null with another project
+              {$project: {"transactions":1,"_id":0}}
+        ])
+    
+        res.json(result[0].transactions); // Devuelve el resultado como JSON
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener las transacciones del usuario' });
       }
-    ]);
-
-    res.status(200).json({ transactions });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Error al obtener el historial de transacciones' });
-  }
+}
+//obtener las transaacciones recibidas
+const getUserRecived = async (req, res) => {
+    try {
+        // ID del usuario proporcionado en la solicitud
+        // Realiza la agregación utilizando el método aggregate()
+        const user_id = String(req.query.userId)
+        console.log(new ObjectId("65dc054482403143ff509771"))
+        console.log()
+        const result = await User.aggregate([
+            {
+                $unwind: "$accounts"
+              },
+            {
+            $match: {
+               "_id":new ObjectId(user_id)}
+            },
+            {$lookup: {
+                from: "transactions",
+                localField: "accounts._id",
+                foreignField: "account_to",
+                as: "account_transactions"
+              }}
+              ,
+              {
+                  $unwind: "$account_transactions"
+              },
+               {$lookup: {
+                     from: "users",
+                     localField: "account_transactions.account_from",
+                     foreignField: "accounts._id",
+                     as: "foreign_user"
+                   }},
+              {$unwind: "$foreign_user"},
+              {
+              $project: {
+                "account_transactions._id": 1,
+                "account_transactions.currency": 1,
+                "account_transactions.account_to": 1,
+                "account_transactions.account_from":1,
+                "account_transactions.date":1,
+                "account_transactions.ammount":1,
+                "foreign_user": {
+                    "names":1,
+                    "lastnames":1,
+                    "accounts":{$filter: {
+                      input: "$foreign_user.accounts",
+                      as: "item",
+                      cond: { $eq: ["$$item._id","$account_transactions.account_from"]}
+                    }}
+                }
+              }},
+              {$unwind: "$foreign_user.accounts"},
+              {$addFields: {"account_transactions.account_type" :"$foreign_user.accounts.account_type",
+              "account_transactions.account_owner_name":"$foreign_user.names",
+              "account_transactions.account_owner_lastname":"$foreign_user.lastnames",
+              "account_transactions.transaction_type":"usergot" ,
+              }},
+              {$project: {"account_transactions":1}},
+              //convert result into array
+              {$group: { _id: null, "transactions": {$push: "$account_transactions"}}},
+              //remove the _id null with another project
+              {$project: {"transactions":1,"_id":0}}
+        ])
+    
+        res.json(result[0].transactions); // Devuelve el resultado como JSON
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error al obtener las transacciones del usuario' });
+      }    
+}
+module.exports = {newTransaction,getUserTransactions,getUserRecived
 };
-
-
-module.exports = { getAccountTransactionHistory };
-
-module.exports = {newTransaction};
