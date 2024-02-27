@@ -1,11 +1,8 @@
-
+// transaction.model.ts
 export interface Transaction {
-    titular: string;
-    descripcion: string;
-    autorizacion: number;
-    monto: number;
-    numeroComprobante: number;
-    fecha: Date;
-    numeroDocumento: number;
-  }
-  
+  ammount: number;
+  date: string; 
+  currency: string;
+  account_from: string;
+  account_to: string;
+}

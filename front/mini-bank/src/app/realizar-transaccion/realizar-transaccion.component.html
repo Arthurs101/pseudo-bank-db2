@@ -1,33 +1,34 @@
 <div class="formulario-container">
-  <h2>Realizar Transacción</h2>
-  <form id="transactionForm">
-      <div class="form-group">
-          <label for="amount">Cantidad</label>
-          <input type="number" id="amount" name="amount" required>
-      </div>
-      <div class="form-group">
-          <label for="date">Fecha</label>
-          <input type="date" id="date" name="date" required>
-      </div>
-      <div class="form-group">
-          <label for="currency">Divisa</label>
-          <select id="currency" name="currency" required>
-              <option value="USD">USD</option>
-              <option value="GTQ">GTQ</option>
-              <option value="EUR">EUR</option>
-              <option value="GBP">GBP</option>
-          </select>
-      </div>
-      <div class="form-group">
-          <label for="account_from">Cuenta de Usuario (Desde)</label>
-          <select id="account_from" name="currency" required>
-            <option *ngFor="let account of user?.accounts" [value]="account?._id">{{account?._id + "\t" + account?.account_type}}</option>
-        </select>
-      </div>
-      <div class="form-group">
-          <label for="account_to">Número de Cuenta a Enviar</label>
-          <input type="text" id="account_to" name="account_to" required>
-      </div>
-      <button type="submit">Enviar Transacción</button>
-  </form>
-</div>
+    <h2>Realizar Transacción</h2>
+    <form id="transactionForm" (ngSubmit)="submitTransaction(transactionForm.value)" #transactionForm="ngForm">
+        <div class="form-group">
+            <label for="amount">Cantidad</label>
+            <input type="number" id="amount" name="amount" [(ngModel)]="transaction.ammount" required>
+        </div>
+        <div class="form-group">
+            <label for="date">Fecha</label>
+            <input type="date" id="date" name="date" [(ngModel)]="transaction.date" required>
+        </div>
+        <div class="form-group">
+            <label for="currency">Divisa</label>
+            <select id="currency" name="currency" [(ngModel)]="transaction.currency" required>
+                <option value="USD">USD</option>
+                <option value="GTQ">GTQ</option>
+                <option value="EUR">EUR</option>
+                <option value="GBP">GBP</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="account_from">Cuenta de Usuario (Desde)</label>
+            <select id="account_from" name="account_from" [(ngModel)]="transaction.account_from" required>
+                <option *ngFor="let account of user?.accounts" [value]="account?._id">{{account?._id + " " + account?.account_type}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="account_to">Número de Cuenta a Enviar</label>
+            <input type="text" id="account_to" name="account_to" [(ngModel)]="transaction.account_to" required>
+        </div>
+        <button type="submit">Enviar Transacción</button>
+    </form>
+  </div>
+  
