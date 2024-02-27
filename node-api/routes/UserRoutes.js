@@ -3,8 +3,7 @@ const { Router } = require("express")
 const router = Router();
 
 router.post('/login', userControll.login)
-router.post('/update', userControll.updateUser)
-router.get('/transactions', userControll.getUserTransactions)
+router.put('/update', userControll.updateUser)
 router.post('/new', userControll.createUser)
 router.delete('/phone', userControll.deletePhone)
 router.post('/phone', userControll.addPhone)

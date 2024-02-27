@@ -5,6 +5,7 @@ const transactionController = require('../controllers/TransactionsController')
 router.post('/',transactionController.newTransaction);
 router.get('/usermade',transactionController.getUserTransactions);
 router.get('/usergot',transactionController.getUserRecived);
-router.post('/loans')
-router.put('/loans')
+router.post('/loans', transactionController.addLoan)
+router.put('/loans', transactionController.addLoanPayment)
+
 module.exports = router

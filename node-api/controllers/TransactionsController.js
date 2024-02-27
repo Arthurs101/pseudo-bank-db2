@@ -1,5 +1,5 @@
 
-const {TransactionModel} = require('../models/TransactionModel');
+const {TransactionModel , LoansModel} = require('../models/TransactionModel');
 const {User} = require('../models/UserModel');
 const mongoose = require('mongoose');
 const castAggregation = require('mongoose-cast-aggregation');
@@ -29,8 +29,8 @@ const newTransaction =  async (req, res) => {
         }
 
         // Actualizar los saldos de las cuentas correspondientes
-        originAccount.balance -= amount;
-        destinationAccount.balance += amount;
+        originAccount.balance -= Number(amount);
+        destinationAccount.balance += Number(amount);
 
         // Aplicar las tasas de cambio si es necesario (aquí puedes implementar la lógica necesaria)
 
@@ -38,18 +38,16 @@ const newTransaction =  async (req, res) => {
         await originAccount.save();
         await destinationAccount.save();
 
-        // // Crear y guardar la transacción en la base de datos
-        // const transaction = new TransactionModel({
-        //     amount,
-        //     date: new Date().toISOString(),
-        //     currency,
-        //     account_from: origin_account_number,
-        //     account_to: destination_account_number
-        // });
-        // await transaction.save();
-
-        // res.status(201).json({ message: 'Transacción creada exitosamente', transaction });
-        res.status(200).json({status: 'OK'});
+        // Crear y guardar la transacción en la base de datos
+        const transaction = new TransactionModel({
+            amount:Number(amount),
+            date: new Date().toISOString(),
+            currency:currency,
+            account_from: new ObjectId(String(account_from)),
+            account_to: new ObjectId(String(account_to))
+        });
+        await transaction.save();
+        res.status(200).json({ message: 'Transacción creada exitosamente', transaction });
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Error interno del servidor' });
@@ -194,5 +192,60 @@ const getUserRecived = async (req, res) => {
         res.status(500).json({ message: 'Error al obtener las transacciones del usuario' });
       }    
 }
-module.exports = {newTransaction,getUserTransactions,getUserRecived
+
+const addLoan = 
+  async (req, res) => {
+    try {
+        const { ammount, due_date, currency, interest, interest_rate } = req.body;
+
+        // Validate input data (optional)
+        // You can use a validation library like `Joi` for input validation
+
+        const newLoan = {
+            ammount:ammount,
+            due_date:due_date,
+            currency:currency,
+            payments: [], // Empty array for payments
+            status: "active", // Default status
+            interest:interest,
+            interest_rate:interest_rate
+        };
+
+        // Update user's loans (assuming a `User` model with a `loans` array)
+        const user = await User.findByIdAndUpdate(
+            req.body.userId, // Replace with the actual user ID from the request
+            { $push: { loans: newLoan } }, // Add loan ID to user's loans array
+            { new: true } // Return the updated user object
+        );
+
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.status(201).json(newLoan); // Return the created loan
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal server error');
+    }
+}
+
+const addLoanPayment = async (req, res) => {
+  try {
+    const { date, ammount, currency ,userId,loanId} = req.body;
+
+    const user = await User.findById(userId,{loans:1});
+    let loan = user.loans.find(loan => loan._id.toString() ==String(loanId))
+    loan.payments.push({
+      date: date,
+      ammount: ammount,
+      currency: currency
+    })
+    user.save()
+  
+    res.json(user.loans); // Return the updated loan with the new payment
+} catch (err) {
+    console.error(err);
+    res.status(500).send('Internal server error');
+}
+}
+module.exports = {newTransaction,getUserTransactions,getUserRecived,addLoan, addLoanPayment
 };
