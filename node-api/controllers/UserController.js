@@ -352,5 +352,4 @@ module.exports = {
     updateAddress,
     deleteAddress,
     addAccount
-
 }
