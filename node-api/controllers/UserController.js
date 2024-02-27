@@ -30,17 +30,25 @@ const updateUser = async (req, res) => {
     //fields: list[{"fielname": "new value}], example: [{"hashed_password": "new password"}"]
     try{
         const { user_code, password ,fields} = req.body;
-        const user = await User.findOneAndUpdate({user_code: user_code, hashed_password: password},fields,{new: true});
-        // Verificar si el usuario existe y la contraseña coincide
+        const user = await User.findOne({user_code: user_code, hashed_password: password});
         if (!user ) {
-        // Devolver un mensaje de error si el usuario no se encuentra o la contraseña no coincide
-            return res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+          // Devolver un mensaje de error si el usuario no se encuentra o la contraseña no coincide
+              return res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
+          }
+        // Update specific fields using standard update methods
+        for (const field of fields) {
+          const entries = Object.entries(field)
+          user[entries[0][0]] = entries[0][1]; // Update each field using its name and value
         }
+
+        // Verificar si el usuario existe y la contraseña coincide
+        
+        await user.save()
     
-        res.status(200).json({message:"success"});
+        res.status(200).json({message:"Usuario editado exitosamente",user: user});
            
     }    catch (error) {
-        res.status(500).json({ message: 'Error interno al actualizar datos' });
+        res.status(500).json({ message: 'Error interno al actualizar datos',error:error.message });
     }
 }
 
@@ -123,11 +131,10 @@ const deletePhone = async (req, res) => {
   try{
     user.phones = user.phones.filter(phone => phone.number !== Number(phone_number));
     await user.save();
-    res.status(200).json({ message: 'Teléfono eliminado correctamente', user });
-
   }catch(error){
     res.status(400).json({ message: "Error eliminadno el teléfono indicado",eror: error.message });
   }
+  res.status(200).json({ message: 'Teléfono eliminado correctamente', user });
 }
 
 const addPhone = async (req, res) => {
