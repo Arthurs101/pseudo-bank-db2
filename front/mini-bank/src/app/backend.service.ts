@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import {User} from './usermodels.model';
 import { Transaction } from './transaction.model';
 import { Branch } from './miscmodels.models';
+import { FormGroup } from '@angular/forms';
 @Injectable({
   providedIn: 'root'
 })
@@ -45,8 +46,8 @@ export class minibankService{
   getPlaces(){return this.http.get<Branch[]>(this.url + "/places")}
 
 
-  updateUser(user: User): Observable<User> {
-    
+  updateUser(user:any): Observable<User> {
+    console.log(user)
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -56,15 +57,15 @@ export class minibankService{
       user_code: this.user?.user_code,
       password: this.user?.hashed_password,
       fields: [
-        { names: this.user?.names },
-        { lastnames: this.user?.lastnames },
-        { nationality: this.user?.nationality },
+        { names: user.name },
+        { lastnames: user.lastnames },
+        { nationality: user.nationality },
       ]
     };
-    
+
 
     console.log(user_data)
-    return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions);
-    
+    return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions)
+
   }
 }

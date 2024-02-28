@@ -15,10 +15,10 @@ export class UserSettingsComponent implements OnInit {
   constructor(private service: minibankService, private formBuilder: FormBuilder) {
 
     this.userForm = this.formBuilder.group({
-   
-   
+
+
       name: ['', Validators.required],
-      lastnames: ['', Validators.required], 
+      lastnames: ['', Validators.required],
       nationality: ['', Validators.required], // Añadido
 
     });
@@ -27,23 +27,23 @@ export class UserSettingsComponent implements OnInit {
   ngOnInit(): void {
     this.user = this.service.getUser();
     if (this.user) {
-    
+
       this.userForm.patchValue({
-   
+
         name: this.user.names,
-        lastnames: this.user.lastnames, 
+        lastnames: this.user.lastnames,
         nationality: this.user.nationality,
-       
+
       });
     }
   }
 
   onSubmit(): void {
     if (this.userForm.valid) {
-  
+
       this.service.updateUser(this.userForm.value).subscribe({
         next: updatedUser => {
-    
+
           this.service.setUser(updatedUser);
           alert('Usuario actualizado con éxito.');
         },

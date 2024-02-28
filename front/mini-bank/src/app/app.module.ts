@@ -14,7 +14,7 @@ import { AccountsComponent } from './accounts/accounts.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
-  declarations: [		
+  declarations: [
     AppComponent,
     LoginComponent,
     DashboardComponent,

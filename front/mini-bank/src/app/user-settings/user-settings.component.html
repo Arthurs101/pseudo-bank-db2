@@ -1,13 +1,13 @@
 <div *ngIf="user">
     <h2>Configuración del Usuario</h2>
     <div>
-      <p>Nombre: {{ user.names }}</p>
-      <p>Apellidos: {{ user.lastnames }}</p>
-      <p>Nacionalidad: {{ user.nationality }}</p>
-    
+      <p>Nombre: {{ user?.names }}</p>
+      <p>Apellidos: {{ user?.lastnames }}</p>
+      <p>Nacionalidad: {{ user?.nationality }}</p>
+
     </div>
   </div>
-  
+
 
 
   <div *ngIf="user">
@@ -15,7 +15,7 @@
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
 
 
-   
+
       <div>
         <label for="names">Nombre:</label>
         <input id="names" type="text" formControlName="name">
@@ -28,9 +28,8 @@
         <label for="nationality">Nacionalidad:</label>
         <input id="nationality" type="text" formControlName="nationality">
       </div>
-   
-  
+
+
       <button type="submit" [disabled]="!userForm.valid">Guardar Cambios</button>
     </form>
   </div>
-  
