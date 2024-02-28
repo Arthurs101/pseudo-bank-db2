@@ -46,11 +46,20 @@ export class minibankService{
 
 
   updateUser(user: User): Observable<User> {
+    
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     };
-    return this.http.put<User>(`${this.url}/user/update`, user, httpOptions);
+    const user_data = {
+      user_code: this.user?.user_code,
+      password: this.user?.hashed_password,
+      fields: [user] 
+    }
+    
+    console.log(user_data)
+    return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions);
+    
   }
 }

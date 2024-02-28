@@ -15,6 +15,8 @@ export class UserSettingsComponent implements OnInit {
   constructor(private service: minibankService, private formBuilder: FormBuilder) {
 
     this.userForm = this.formBuilder.group({
+   
+   
       name: ['', Validators.required],
       lastnames: ['', Validators.required], 
       nationality: ['', Validators.required], // Añadido
@@ -27,6 +29,7 @@ export class UserSettingsComponent implements OnInit {
     if (this.user) {
     
       this.userForm.patchValue({
+   
         name: this.user.names,
         lastnames: this.user.lastnames, 
         nationality: this.user.nationality,

@@ -13,6 +13,9 @@
   <div *ngIf="user">
     <h2>Configuración del Usuario</h2>
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+
+
+   
       <div>
         <label for="names">Nombre:</label>
         <input id="names" type="text" formControlName="name">
