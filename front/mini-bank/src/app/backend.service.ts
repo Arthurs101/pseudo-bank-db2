@@ -55,9 +55,14 @@ export class minibankService{
     const user_data = {
       user_code: this.user?.user_code,
       password: this.user?.hashed_password,
-      fields: [user] 
-    }
+      fields: [
+        { names: this.user?.names },
+        { lastnames: this.user?.lastnames },
+        { nationality: this.user?.nationality },
+      ]
+    };
     
+
     console.log(user_data)
     return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions);
     
