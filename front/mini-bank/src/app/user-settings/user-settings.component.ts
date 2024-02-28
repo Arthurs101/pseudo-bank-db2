@@ -48,7 +48,6 @@ export class UserSettingsComponent implements OnInit {
           alert('Usuario actualizado con éxito.');
         },
         error: error => {
-         console.log(error)
          alert('Error al actualizar el usuario. Por favor, inténtelo de nuevo.')
         }
       });

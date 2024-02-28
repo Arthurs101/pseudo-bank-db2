@@ -8,7 +8,6 @@ const login = async (req, res)  => {
           const { user_code, password } = req.body;
           // Buscar el usuario por user_id
           const user = await User.findOne({ user_code: Number(user_code) });
-          console.log(user);
           // Verificar si el usuario existe y la contraseña coincide
           if (!user || user.hashed_password !== password) {
             // Devolver un mensaje de error si el usuario no se encuentra o la contraseña no coincide
@@ -205,7 +204,6 @@ const addAddress = async (req, res) => {
     );
 
     if (existingAddress) {
-      console.log(user)
       res.status(400).json({ message: 'La dirección ya existe para este usuario' });
     }else{
       // Agregar la dirección al usuario

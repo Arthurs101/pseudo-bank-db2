@@ -27,7 +27,7 @@ export class minibankService{
       user_code: user_code,
       password: password
     };
-    console.log(body);
+
 
     // Definir los encabezados para indicar que se envían datos JSON
     const httpOptions = {
@@ -47,7 +47,7 @@ export class minibankService{
 
 
   updateUser(user:any): Observable<User> {
-    console.log(user)
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ export class minibankService{
     };
 
 
-    console.log(user_data)
+
     return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions)
 
   }

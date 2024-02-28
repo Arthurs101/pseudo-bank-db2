@@ -30,11 +30,11 @@ export class RealizarTransaccionComponent {
 
   ngOnInit(): void {
     this.user = this.service.getUser();
-    console.log(this.user)
+
     if (this.user == null) {
       this.Router.navigate(['/not-found']);
     }
-    console.log(this.user?.accounts);
+
   }
 
   // Método para manejar el envío del formulario
@@ -50,11 +50,10 @@ export class RealizarTransaccionComponent {
       };
 
 
-      console.log('Enviando transacción:', transaction);
+
 
       this.service.performTransaction(transaction).subscribe({
         next: (response) => {
-          console.log('Transacción realizada con éxito', response);
           alert('Transacción realizada con éxito.');
         },
         error: (error) => {
