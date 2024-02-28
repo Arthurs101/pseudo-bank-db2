@@ -1,0 +1,125 @@
+/* Estilos globales para la página */
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    margin: 0;
+    padding: 20px;
+  }
+  
+
+  @font-face {
+    font-family: 'Knile';
+    src: url('../../assets/Knile-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body{
+    font-family: 'Knile', sans-serif;
+  }
+  /* Contenedor principal */
+  div[user-settings] {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Títulos de cada sección */
+  h2 {
+    color: #5d3f92; /* Morado oscuro */
+    border-bottom: 2px solid #5d3f92; /* Línea morada debajo del título */
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    font-family: 'Knile', sans-serif;
+  }
+  
+  /* Estilos para los formularios */
+  form {
+    background: #eae7f8; /* Morado claro de fondo */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    font-family: 'Knile', sans-serif;
+  }
+  
+  /* Estilos para las etiquetas de los campos */
+  label {
+    display: block;
+    margin: 10px 0 5px;
+    color: #333;
+    font-family: 'Knile', sans-serif;
+  }
+  
+  /* Estilos para los inputs */
+  input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-family: 'Knile', sans-serif;
+  }
+  
+  /* Estilos para los botones */
+  button {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    background-color: #5d3f92; /* Morado oscuro */
+    cursor: pointer;
+    transition: background-color 0.3s;
+    font-family: 'Knile', sans-serif;
+  }
+  
+  button:hover {
+    background-color: #7a57a5; /* Morado más claro */
+  }
+  
+  /* Estilos para deshabilitar botones */
+  button[disabled] {
+    background-color: #bbb;
+    cursor: not-allowed;
+  }
+  
+
+  /* Estilos previos... */
+
+.user-container {
+    display: flex;
+    justify-content: space-between; 
+    align-items: flex-start; 
+    padding: 20px;
+  }
+  
+  .form-container {
+    flex-basis: 60%; /* Ocupa el 60% del contenedor principal */
+    border: 2px solid #800080; /* Borde morado */
+    padding: 20px;
+    border-radius: 10px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(128, 0, 128, 0.2); /* Sombra suave */
+    margin-right: 20px; /* Espacio entre el formulario y la imagen */
+    /* Resto de tus estilos... */
+  }
+  
+  .image-container {
+    flex-basis: 40%; /* Ocupa el 40% del contenedor principal */
+    text-align: right; /* Alinea la imagen a la derecha */
+  }
+  
+  .image-container img {
+    max-width: 100%; /* Ajusta la imagen al contenedor */
+    height: auto;
+    border-radius: 10px; /* Bordes redondeados */
+  }
+  
+
+  

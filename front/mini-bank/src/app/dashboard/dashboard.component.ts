@@ -10,6 +10,12 @@ import { minibankService } from '../backend.service';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
+  images = [
+    '../../assets/gato.jpg"/',
+   ' ../../asssets/prestar.jpg/ ',
+    '../../assets/gato.jpg',
+ 
+  ];
 
   user: User | null = null;
   view = 0;
@@ -31,6 +37,10 @@ export class DashboardComponent implements OnInit {
     else if (view === 4) {
       this.router.navigate(['/configuracion-usuario']);
     }
+    else if (view === 2) {
+      this.router.navigate(['/prestamos']);
+    }
+    
   }
 
   ngOnInit(): void {
@@ -38,9 +48,27 @@ export class DashboardComponent implements OnInit {
     if (this.user == null) {
       this.router.navigate(['/not-found']);
     }
-
+    else {
+      this.startSlideshow();
+    }
   }
 
+
+  startSlideshow(): void {
+    const images = document.querySelectorAll('#image-container img');
+    let currentImageIndex = 0;
+
+    setInterval(() => {
+      // Remueve la clase 'active' de la imagen actual
+      images[currentImageIndex].classList.remove('active');
+
+      // Calcula el índice de la siguiente imagen
+      currentImageIndex = (currentImageIndex + 1) % images.length;
+
+  
+      images[currentImageIndex].classList.add('active');
+    }, 1500);
+  }
   adminAction() {
     
     this.router.navigate(['/charts']);

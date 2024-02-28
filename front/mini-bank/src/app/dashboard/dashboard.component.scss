@@ -16,18 +16,21 @@ body{
 
 .dashboard-container {
     padding: 20px;
-    background-color:#2c307c; // Un color de fondo claro para el panel de control
+    background-color:#ffffff; // Un color de fondo claro para el panel de control
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
     h1 {
-        color: #ffffff; // Un color oscuro para el texto
+        color: #37115e; // Un color oscuro para el texto
         font-family: 'Knile', sans-serif;
+        text-align: center;
+        
     }
 
     .dashboard-menu {
         display: flex;
         flex-direction: column; // Botones en una columna
+        font-family: 'Knile', sans-serif;
 
         button {
             background-color: #007bff; // Un azul estándar para botones
@@ -38,6 +41,7 @@ body{
             margin-top: 10px;
             cursor: pointer;
             transition: background-color 0.3s;
+            font-family: 'Knile', sans-serif;
 
             &:hover {
                 background-color: #0056b3;
@@ -53,12 +57,10 @@ body{
     position: relative; 
     padding: 20px;
     border-radius: 5px;
-    background-color: #f0f0f0;
-    border: 1px solid #00ffea;
     height: 220px;
     font-size: 30px;
-    box-shadow: 0 0 15px rgba(0, 255, 234, 0.7), 0 0 5px rgba(0, 255, 234, 0.5) inset;
-    /* ... */
+    font-family: 'Knile', sans-serif;
+
 }
 
 
@@ -68,17 +70,9 @@ body{
     left: 50%;
     transform: translateX(-50%);
     text-align: center;
+    font-family: 'Knile', sans-serif;
 }
 
-
-.imagen-cerdoverde {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    height: 250px;
-    width: 250px; 
-}
 
 
 
@@ -109,6 +103,7 @@ body{
     text-align: center; 
     font-family: 'Arial', sans-serif; 
     color: #ffffff; 
+    font-family: 'Knile', sans-serif;
     
   }
   
@@ -119,6 +114,7 @@ body{
     justify-content: center; // Centra los botones horizontalmente
     gap: 30px; // Espacio entre los botones
     flex-wrap: wrap; 
+    font-family: 'Knile', sans-serif;
 
     button {
         background-color: #ad61f8; // Un azul estándar para botones
@@ -218,3 +214,40 @@ body{
   width: 200px; /* Ancho del icono */
   height: auto; /* Altura automática para mantener la proporción */
 }
+
+.picsum-img-wrapper {
+  text-align: center;
+}
+
+.picsum-img-wrapper img {
+  max-width: 100%;
+  height: auto;
+}
+
+.carousel-caption {
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  padding: 1rem;
+}
+
+
+.image-container img {
+  display: none; 
+  max-width: 100%;
+  max-height: 1500px;
+  transition: opacity 1s ease-in-out; /* Transición suave para el efecto de fundido */
+}
+
+.image-container img.active {
+  display: block; /* Muestra solo la imagen activa */
+  opacity: 1;
+  width: 100%;
+  overflow: hidden;
+}
+
+.dashboard-menu button {
+  font-family: 'Knile', sans-serif;
+}
+
+
+

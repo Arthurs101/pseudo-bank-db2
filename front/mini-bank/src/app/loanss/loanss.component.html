@@ -1,0 +1,45 @@
+<div class="container mt-4">
+    <div class="row">
+      <div class="col-md-6 offset-md-3">
+        <h2 class="text-center">Solicitud de Préstamo</h2>
+        <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+          <div class="form-group">
+            <label for="amount">Monto del Préstamo</label>
+            <input type="number" class="form-control" id="amount" formControlName="amount">
+            <div class="text-danger">El monto del préstamo es requerido.</div>
+            <div class="text-danger">El monto del préstamo debe ser mayor que 0.</div>
+          </div>
+          <div class="form-group">
+            <label for="due_date">Fecha de Vencimiento</label>
+            <input type="date" class="form-control" id="due_date" formControlName="due_date">
+            <div class="text-danger">La fecha de vencimiento es requerida.</div>
+          </div>
+          <div class="form-group">
+            <label for="interest">Interés</label>
+            <input type="number" class="form-control" id="interest" formControlName="interest">
+            <div class="text-danger">El interés es requerido.</div>
+            <div class="text-danger">El interés debe ser mayor o igual a 0.</div>
+          </div>
+          <div class="form-group">
+            <label for="currency">Moneda</label>
+            <select class="form-control" id="currency" formControlName="currency">
+              <option value="GTQ">Quetzal (GTQ)</option>
+              <!-- Otras opciones de moneda -->
+            </select>
+            <div class="text-danger">La moneda es requerida.</div>
+          </div>
+          <div class="form-group">
+            <label for="interest_rate">Tasa de Interés</label>
+            <select class="form-control" id="interest_rate" formControlName="interest_rate">
+              <option value="monthly">Mensual</option>
+              <option value="annually">Anual</option>
+              <!-- Otras opciones de tasa de interés -->
+            </select>
+            <div class="text-danger">La tasa de interés es requerida.</div>
+          </div>
+          <button type="submit" class="btn btn-primary" [disabled]="!loanForm.valid">Enviar Solicitud</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  

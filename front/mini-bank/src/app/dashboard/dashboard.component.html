@@ -4,18 +4,25 @@
 <div class="dashboard-container">
 
 
-      
+ 
+  
    
     <h1>Bienvenido, {{(user && user.names && user.lastnames) ? (user.names + " " + user.lastnames) : ''}}</h1>
-
-    <div class="header-image">
-        <img src="../../assets/gato.jpg" alt="Texto alternativo de la imagen">
-
-    </div>
-    <div class="saldo-recuadro">
+    <div class="sliding-images">
+        <div id="image-container" class="image-container">
+          <img src="../../assets/gato.jpg" alt="Imagen 1" class="active">
+          <img src="../../assets/compras.jpg" alt="Imagen 3">
+          <img src="../../assets/realizar.jpg" alt="Imagen 2">
+        </div>
+      </div>
+      
+ 
+      <div class="saldo-recuadro">
         Credit Score: {{ user?.credit_score }}
-        <img src="assets/cerdoverde.png" alt="Cerdito Verde" class="imagen-cerdoverde">
     </div>
+    
+        
+  
     <!-- Contenedor para los botones de transacciones -->
     <div class="transacciones-container">
         <!-- Contenedor para los botones con iconos -->
@@ -61,4 +68,4 @@
 
 
 
-</div>
+

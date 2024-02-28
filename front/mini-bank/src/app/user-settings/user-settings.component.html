@@ -1,32 +1,65 @@
-<div *ngIf="user">
-    <h2>Configuración del Usuario</h2>
-    <div>
-     
-    </div>
-  </div>
-
-
-
-  <div *ngIf="user">
+<div *ngIf="user" class="user-container">
+  
+  <!-- Sección de configuración del usuario -->
+  <div class="form-section">
     <h2>Configuración del Usuario</h2>
     <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
-
-
-
-      <div>
+      <div class="form-group">
         <label for="names">Nombre:</label>
         <input id="names" type="text" formControlName="name">
       </div>
-      <div>
+      <div class="form-group">
         <label for="lastnames">Apellidos:</label>
         <input id="lastnames" type="text" formControlName="lastnames">
       </div>
-      <div>
+      <div class="form-group">
         <label for="nationality">Nacionalidad:</label>
         <input id="nationality" type="text" formControlName="nationality">
       </div>
-
-
       <button type="submit" [disabled]="!userForm.valid">Guardar Cambios</button>
     </form>
   </div>
+  
+  <!-- Sección para añadir número de teléfono -->
+  <div class="form-section">
+    <h2>Añadir Número de Teléfono</h2>
+    <form [formGroup]="userPhoneForm" (ngSubmit)="addPhone()">
+      <div class="form-group">
+        <label for="number">Número de Teléfono:</label>
+        <input id="number" type="text" formControlName="number">
+      </div>
+      <div class="form-group">
+        <label for="postal_code">Código Postal:</label>
+        <input id="postal_code" type="text" formControlName="postal_code">
+      </div>
+      <div class="form-group">
+        <label for="brand">Marca:</label>
+        <input id="brand" type="text" formControlName="brand">
+      </div>
+      <button type="submit" [disabled]="!userPhoneForm.valid">Añadir Número</button>
+    </form>
+  </div>
+  <div class="form-section">
+    <h2>Añadir Dirección</h2>
+    <form [formGroup]="userAddressForm" (ngSubmit)="addAddress()">
+      <div class="form-group">
+        <label for="street_name">Nombre de Calle:</label>
+        <input id="street_name" type="text" formControlName="street_name">
+      </div>
+      <div class="form-group">
+        <label for="zip_code">Código Postal:</label>
+        <input id="zip_code" type="text" formControlName="zip_code">
+      </div>
+      <div class="form-group">
+        <label for="city">Ciudad:</label>
+        <input id="city" type="text" formControlName="city">
+      </div>
+      <button type="submit" [disabled]="!userAddressForm.valid">Añadir Dirección</button>
+    </form>
+  </div>
+  <!-- Contenedor de la imagen -->
+  <div class="image-container">
+    <img src="../../assets/editar.jpg" alt="Descripción de la imagen" class="side-image">
+  </div>
+
+</div>

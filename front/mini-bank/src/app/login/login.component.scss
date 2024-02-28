@@ -3,12 +3,25 @@ body, html {
     padding: 0;
     overflow-x: hidden; 
 }
+
+
+@font-face {
+    font-family: 'Knile';
+    src: url('../../assets/Knile-Regular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  body{
+    font-family: 'Knile', sans-serif;
+  }
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: #000; // Color de fondo negro
     padding: 10px 50px; 
+    font-family: 'Knile', sans-serif;
 }
 
 .logo-container {
@@ -31,6 +44,7 @@ body, html {
                 text-decoration: none;
                 color: white; // Color del texto
                 font-weight: bold; // Estilo del texto
+                font-family: 'Knile', sans-serif;
             }
         }
     }
@@ -62,13 +76,14 @@ body, html {
     background-color: #011118;
     box-sizing: border-box; 
     border: 5px solid white; 
+    font-family: 'Knile', sans-serif;
     
 }
 
 .login-container h2 {
     color: white;
     margin: 0 auto;
-  
+    font-family: 'Knile', sans-serif;
 }
 
 .login-image {
@@ -107,6 +122,7 @@ body, html {
     background-color: #011120;
     color: white;
     cursor: pointer;
+    font-family: 'Knile', sans-serif;
 }
 
 .btn-primary:hover {
@@ -125,6 +141,7 @@ body, html {
     display: block; /* Hacer que el botón sea un bloque para permitir el ancho personalizado */
     margin: 15px auto 30px; /* Centrar el botón y aumentar el margen inferior */
     transition: background-color 0.3s, color 0.3s; /* Transición suave */
+    font-family: 'Knile', sans-serif;
 }
 
 .btn-secondary:hover {

@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Knile';
+  src: url('../../assets/Knile-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+
 .formulario-container {
     max-width: 500px;
     margin: auto;
@@ -5,14 +12,22 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  
+    @font-face {
+      font-family: 'Knile';
+      src: url('../../assets/Knile-Regular.otf') format('opentype');
+      font-weight: normal;
+      font-style: normal;
+    }
     h2 {
       text-align: center;
       color: #333;
+      font-family: 'Knile', sans-serif;
+      
     }
   
     .form-group {
       margin-bottom: 15px;
+      font-family: 'Knile', sans-serif;
   
       label {
         display: block;
@@ -28,11 +43,13 @@
         border: 1px solid #ddd;
         border-radius: 4px;
         box-sizing: border-box;
+        font-family: 'Knile', sans-serif;
       }
   
       textarea {
         height: 100px;
         resize: vertical;
+        font-family: 'Knile', sans-serif;
       }
     }
   
@@ -45,9 +62,63 @@
       color: white;
       cursor: pointer;
       transition: background-color 0.3s;
+      font-family: 'Knile', sans-serif;
   
       &:hover {
         background-color: #9b4de0;
+      }
+    }
+  }
+  
+
+  .transacciones-container {
+    background: #f7f7f7;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    font-family: 'Knile', sans-serif;
+    
+    .transacciones-realizadas,
+    .transacciones-recibidas {
+      margin-bottom: 20px;
+      font-family: 'Knile', sans-serif;
+    }
+  
+    h3 {
+      color: #333;
+      margin-bottom: 15px;
+      font-family: 'Knile', sans-serif;
+    }
+  
+    .transacciones-lista {
+      list-style: none;
+      padding: 0;
+      font-family: 'Knile', sans-serif;
+  
+      .transaccion-item {
+        background: #fff;
+        padding: 10px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+        font-family: 'Knile', sans-serif;
+  
+        .transaccion-fecha {
+          flex-basis: 20%;
+        }
+  
+        .transaccion-monto {
+          flex-basis: 20%;
+          font-weight: bold;
+        }
+  
+        .transaccion-destino,
+        .transaccion-origen {
+          flex-basis: 30%;
+        }
       }
     }
   }

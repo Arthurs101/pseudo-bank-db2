@@ -7,6 +7,7 @@ import { RealizarTransaccionComponent } from './realizar-transaccion/realizar-tr
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
 import { ChartComponent } from './chart/chart.component';
+import { LoanssComponent } from './loanss/loanss.component';
 
 
 
@@ -19,6 +20,9 @@ const routes: Routes = [
   {path :'not-found', component: NotFoundComponentComponent },
   { path: 'configuracion-usuario', component: UserSettingsComponent },
   { path: 'charts', component: ChartComponent }, 
+  { path: 'prestamos', component: LoanssComponent },
+
+  
 ];
 
 @NgModule({

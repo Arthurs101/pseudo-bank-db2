@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders ,HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {User} from './usermodels.model';
 import { Transaction } from './transaction.model';
@@ -68,4 +68,65 @@ export class minibankService{
     return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions)
 
   }
+
+ 
+  getTransactionsMadeByUser(userId: string): Observable<Transaction[]> {
+    let params = new HttpParams().set('userId', userId);
+    return this.http.get<Transaction[]>(`${this.url}/transaction/usermade`, { params });
+  }
+
+  getTransactionsReceivedByUser(userId: string): Observable<Transaction[]> {
+    let params = new HttpParams().set('userId', userId);
+    return this.http.get<Transaction[]>(`${this.url}/transaction/usergot`, { params });
+  }
+
+
+  addPhoneNumber(phoneData: { user_code: string, password: string, new_phone: { number: number, postal_code: string, brand: string } }): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+       
+      })
+    };
+
+
+    const url = `${this.url}/user/phone`;
+    
+    // Realiza la petición POST con los datos del teléfono.
+    return this.http.post(url, phoneData, httpOptions);
+  }
+
+
+
+  addAddress(addressData: { user_code: string; password: string; new_address: { street_name: string; zip_code: string; city: string; } }): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+  
+    const url = `${this.url}/user/address`;
+  
+    // Realiza la petición POST con los datos de la dirección.
+    return this.http.post(url, addressData, httpOptions);
+  }
+
+
+  createLoan(loanData: { userId: string, amount: number, due_date: string, currency: string, interest: number, interest_rate: string }): Observable<any> {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      })
+    };
+  
+    const url = `${this.url}/transaction/loans`;
+    
+    // Realiza la petición POST con los datos del préstamo.
+    return this.http.post(url, loanData, httpOptions);
+  }
+  
+  
 }
+  
+
+

@@ -6,8 +6,8 @@
     <h2>Realizar Transacción</h2>
     <form id="transactionForm" (ngSubmit)="submitTransaction(transactionForm.value)" #transactionForm="ngForm">
         <div class="form-group">
-            <label for="amount">Cantidad</label>
-            <input type="number" id="amount" name="amount" [(ngModel)]="transaction.ammount" required>
+            <label for="ammount">Cantidad</label>
+            <input type="number" id="ammount" name="ammount" [(ngModel)]="transaction.ammount" required>
         </div>
         <div class="form-group">
             <label for="date">Fecha</label>
@@ -34,5 +34,36 @@
         </div>
         <button type="submit">Enviar Transacción</button>
     </form>
+
+
+    <!-- Sección para mostrar transacciones realizadas -->
+    <div class="transacciones-container">
+      <!-- Sección para mostrar transacciones realizadas -->
+      <section *ngIf="transactionsMade.length > 0" class="transacciones-realizadas">
+        <h3>Transacciones Realizadas</h3>
+        <ul class="transacciones-lista">
+          <li *ngFor="let transaction of transactionsMade" class="transaccion-item">
+            <span class="transaccion-fecha">{{ transaction.date }}</span>
+            <span class="transaccion-monto">{{ transaction.ammount | currency:transaction.currency }}</span>
+            <span class="transaccion-destino">Para: {{ transaction.account_to }}</span>
+          </li>
+        </ul>
+      </section>
+      <p *ngIf="transactionsMade.length === 0">No has realizado transacciones.</p>
+      
+      <!-- Sección para mostrar transacciones recibidas -->
+      <section *ngIf="transactionsReceived.length > 0" class="transacciones-recibidas">
+        <h3>Transacciones Recibidas</h3>
+        <ul class="transacciones-lista">
+          <li *ngFor="let transaction of transactionsReceived" class="transaccion-item">
+            <span class="transaccion-fecha">{{ transaction.date }}</span>
+            <span class="transaccion-monto">{{ transaction.ammount | currency:transaction.currency }}</span>
+            <span class="transaccion-origen">De: {{ transaction.account_from }}</span>
+          </li>
+        </ul>
+      </section>
+      <p *ngIf="transactionsReceived.length === 0">No has recibido transacciones.</p>
+    </div>
+    
   </div>
   
