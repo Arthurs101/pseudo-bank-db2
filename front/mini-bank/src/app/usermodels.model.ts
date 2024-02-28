@@ -37,6 +37,7 @@ export interface Loan {
 }
 
 export interface User {
+  _id: string;
   names: string;
   lastnames: string;
   birthdate: string;
