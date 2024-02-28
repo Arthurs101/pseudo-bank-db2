@@ -16,11 +16,15 @@ const newTransaction =  async (req, res) => {
         }
 
         // Verificar que las cuentas de origen y destino existan
-        console.log(new ObjectId(String(account_from)))
         const originAccount = user.accounts.find(account => account._id.toString() == (String(account_from)));
+        console.log({origin: originAccount})
         let destinationAccount = await User.findOne({ "accounts._id":new ObjectId(String(account_to))},{"accounts":1});
+        console.log({destination: destinationAccount})
         if (!originAccount || !destinationAccount) {
-            return res.status(404).json({ message: 'Cuenta de origen o destino no encontrada' });
+            return res.status(404).json({ message: 'Cuenta de origen no encontrada' });
+        }
+        if(!destinationAccount){
+          return res.status(404).json({ message: 'Cuenta  destino no encontrada' });
         }
 
         // Verificar que la cantidad a transferir no exceda el saldo disponible en la cuenta de origen

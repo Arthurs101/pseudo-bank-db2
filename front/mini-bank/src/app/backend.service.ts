@@ -20,7 +20,7 @@ export class minibankService{
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Transaction>(this.url + "/transactions", transaction, httpOptions);
+    return this.http.post<Transaction>(this.url + "/transaction", transaction, httpOptions);
   }
   login(user_code: string, password: string): Observable<User> {
     const body = {
