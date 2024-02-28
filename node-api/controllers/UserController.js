@@ -123,17 +123,22 @@ const deletePhone = async (req, res) => {
   // Verificar si el usuario existe y la contraseña coincide
   if (!user || user.hashed_password !== password) {
     res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
-  }
+  }else{ 
   if (user.phones.length === 1) {
-    res.status(400).json({ message: 'No se puede eliminar el único teléfono del usuario' });
-  }
+    if (user.phones[0].phone_number === phone_number) {
+    res.status(400).json({ message: 'No se puede eliminar el único teléfono del usuario' });}
+    else{
+      res.status(400).json({ message: 'Telefono no hallado' })
+    }
+  }else{
   try{
     user.phones = user.phones.filter(phone => phone.number !== Number(phone_number));
     await user.save();
+    res.status(200).json({ message: 'Teléfono eliminado correctamente', user });
   }catch(error){
     res.status(400).json({ message: "Error eliminadno el teléfono indicado",eror: error.message });
-  }
-  res.status(200).json({ message: 'Teléfono eliminado correctamente', user });
+  }}}
+  
 }
 
 const addPhone = async (req, res) => {
@@ -141,17 +146,18 @@ const addPhone = async (req, res) => {
   const user = await User.findOne({ user_code: Number(user_code) },{hashed_password:1,phones:1});
   if (!user || user.hashed_password !== password) {
     res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
-  }
+  }else {
   //check if phone number is already in account
   const existingPhone = user.phones.filter(p => p.number === Number(new_phone.number));
   if (existingPhone.length > 0) {
       return res.status(400).json({ message: 'El teléfono ya existe para este usuario' });
-  }
+  } else{
   // Agregar el teléfono al usuario
   var parsedPhone = {number: Number(new_phone.number) , postal_code: String(new_phone.postal_code) , brand: String(new_phone.brand)}
   user.phones.push(parsedPhone);
   user.save();
-  res.status(200).json({ message: 'Teléfono agregado correctamente', user });
+  res.status(200).json({ message: 'Teléfono agregado correctamente', user });}
+  }
 }
 const updatePhone = async (req, res) => {
   try{
@@ -195,7 +201,7 @@ const addAddress = async (req, res) => {
 
     if (!user || user.hashed_password !== password) {
       res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
-    }
+    }else { 
     // Verificar si la dirección ya existe para el usuario
     const existingAddress = user.adrresses.find(a =>
       a.street_name === new_address.street_name &&
@@ -215,7 +221,7 @@ const addAddress = async (req, res) => {
       user.adrresses.push(new_address);
       await user.save();
       res.status(200).json({ message: 'Dirección agregada correctamente', user });
-    }
+    } }
 
     
   } catch (error) {
@@ -244,9 +250,7 @@ const updateAddress = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({ message: 'Usuario no encontrado, contraseña incorrecta o dirección no encontrada' });
-    }
-
-    res.status(200).json({ message: 'Dirección actualizada correctamente', user });
+    }else  {    res.status(200).json({ message: 'Dirección actualizada correctamente', user });}
   } catch (error) {
     res.status(500).json({ message: 'Error interno al actualizar dirección', error: error.message });
   }
@@ -259,22 +263,28 @@ const deleteAddress = async (req, res) => {
   if (!user || user.hashed_password !== password) {
     res.status(404).json({ message: 'Usuario no encontrado o contraseña incorrecta' });
   }
-  if (user.adrresses.length === 1) {
-    res.status(400).json({ message: 'No se puede eliminar la dirección única del usuario' });
-  }
+  else{ 
+  if (user.adrresses.length === 1 ) {
+    if(user.adrresses[0].street_name == address.street_name && user.adrresses[0].zip_code == address.zip_code && user.adrresses[0].city == address.city){
+      res.status(400).json({ message: 'No se puede eliminar la dirección única del usuario' });
+    }else{
+      res.status(404).json({ message: 'No se encuentra la direccion proporsionada' });
+    }
+    
+  }else{
   try{
     user.adrresses = user.adrresses.filter(ad => ad.street_name !== address.street_name &&
       ad.zip_code !== address.zip_code &&
       ad.city !== address.city);
     await user.save();
     res.status(200).json({ message: 'Direccion eliminada correctamente', user });
-
   }catch(error){
     res.status(400).json({ message: "Error eliminadno la direccion indicada",eror: error.message });
-  }
+  }}}
 }
 const addAccount = async(req, res) => {
   const { user_id ,accountData }  = req.body;
+  try{
   const user = await User.findById(String(user_id),{accounts:1});
   if(!user){
     res.status(404).json({message:"usuario no hallado"})
@@ -282,6 +292,8 @@ const addAccount = async(req, res) => {
     user.accounts.push(accountData)
     user.save()
     res.status(200).json(user)
+  }}catch(error){
+    res.status(500).json({message: "error interno de api", error_type:error.message})
   }
   
 }
