@@ -20,14 +20,14 @@ export class minibankService{
         'Content-Type': 'application/json'
       })
     };
-    return this.http.post<Transaction>(this.url + "/transactions", transaction, httpOptions);
+    return this.http.post<Transaction>(this.url + "/transaction", transaction, httpOptions);
   }
   login(user_code: string, password: string): Observable<User> {
     const body = {
       user_code: user_code,
       password: password
     };
-    console.log(body);
+
 
     // Definir los encabezados para indicar que se envían datos JSON
     const httpOptions = {
@@ -47,7 +47,7 @@ export class minibankService{
 
 
   updateUser(user:any): Observable<User> {
-    console.log(user)
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ export class minibankService{
     };
 
 
-    console.log(user_data)
+
     return this.http.put<User>(`${this.url}/user/update`, user_data, httpOptions)
 
   }

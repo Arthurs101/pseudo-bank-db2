@@ -16,11 +16,13 @@ const newTransaction =  async (req, res) => {
         }
 
         // Verificar que las cuentas de origen y destino existan
-        console.log(new ObjectId(String(account_from)))
         const originAccount = user.accounts.find(account => account._id.toString() == (String(account_from)));
         let destinationAccount = await User.findOne({ "accounts._id":new ObjectId(String(account_to))},{"accounts":1});
         if (!originAccount || !destinationAccount) {
-            return res.status(404).json({ message: 'Cuenta de origen o destino no encontrada' });
+            return res.status(404).json({ message: 'Cuenta de origen no encontrada' });
+        }
+        if(!destinationAccount){
+          return res.status(404).json({ message: 'Cuenta  destino no encontrada' });
         }
 
         // Verificar que la cantidad a transferir no exceda el saldo disponible en la cuenta de origen
@@ -128,8 +130,6 @@ const getUserRecived = async (req, res) => {
         // ID del usuario proporcionado en la solicitud
         // Realiza la agregación utilizando el método aggregate()
         const user_id = String(req.query.userId)
-        console.log(new ObjectId("65dc054482403143ff509771"))
-        console.log()
         const result = await User.aggregate([
             {
                 $unwind: "$accounts"

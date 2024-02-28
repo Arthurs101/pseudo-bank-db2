@@ -22,7 +22,7 @@ export class AccountsComponent implements OnInit {
         this.places = res
       },
       (error) => {
-        console.log("cant get places")
+
       })
    }
 
