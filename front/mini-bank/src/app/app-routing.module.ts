@@ -6,6 +6,8 @@ import { HistorialTransaccionesComponent } from './historial-transacciones/histo
 import { RealizarTransaccionComponent } from './realizar-transaccion/realizar-transaccion.component';
 import { NotFoundComponentComponent } from './NotFoundComponent/NotFoundComponent.component';
 import { UserSettingsComponent } from './user-settings/user-settings.component';
+import { ChartComponent } from './chart/chart.component';
+
 
 
 const routes: Routes = [
@@ -16,6 +18,7 @@ const routes: Routes = [
   { path: 'realizar-transaccion', component: RealizarTransaccionComponent },
   {path :'not-found', component: NotFoundComponentComponent },
   { path: 'configuracion-usuario', component: UserSettingsComponent },
+  { path: 'charts', component: ChartComponent }, 
 ];
 
 @NgModule({

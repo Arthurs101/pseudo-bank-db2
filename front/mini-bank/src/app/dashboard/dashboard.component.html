@@ -42,7 +42,15 @@
         <img src="../../assets/editar.jpg" alt="Icon description" class="button-icon">
     <button (click)="setView(4)" *ngIf="view!=4">Configuraciones de Usuario</button>
 </div>
+
+
+
     </div>
+    <div class="button-with-icon admin-button" *ngIf="user?.type === 'admin'">
+        <img src="../../assets/admin.jpg" alt="Icono de administrador" class="button-icon">
+        <button (click)="adminAction()">Panel de Administración</button>
+      </div>
+      
 <div class="dashboard-menu">
     <button>Cerrar Sesión</button>
 </div>
@@ -50,5 +58,7 @@
 <div class="panel-contens">
   <app-accounts [accounts]="user?.accounts" [view]="view" *ngIf="view==0 || view==3"> ></app-accounts>
 </div>
+
+
 
 </div>

@@ -118,6 +118,7 @@ body{
     display: flex;
     justify-content: center; // Centra los botones horizontalmente
     gap: 30px; // Espacio entre los botones
+    flex-wrap: wrap; 
 
     button {
         background-color: #ad61f8; // Un azul estándar para botones
@@ -137,7 +138,11 @@ body{
     max-width: 800px; 
     max-height: 800px; 
   }
-  
+  .admin-button {
+    width: 100%; /* Hace que el botón ocupe todo el ancho del contenedor */
+    display: flex;
+    justify-content: center; /* Centra el botón en el espacio disponible */
+  }
 
 /* Estilos existentes... */
 
